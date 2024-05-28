@@ -1,0 +1,27 @@
+{
+    "configurations": [
+        {
+            "name": "qt",
+            "includePath": [
+                "d:/Qt/6.6.3/mingw_64/include/**",
+                "d:/Qt/6.6.3/mingw_64/include/QtCore",
+                "d:/Qt/6.6.3/mingw_64/include/QtSerialBus",
+                "d:/Qt/6.6.3/mingw_64/include/QtGui",
+                "${workspaceRoot}/**",
+                "${workspaceRoot}/src/**",
+                "${workspaceRoot}/src/cameracontrol/**",
+                "${workspaceRoot}/src/func/**",
+                "${workspaceRoot}/src/lineccdview/**",
+                "${workspaceRoot}/src/motorcontrol/**",
+                "${workspaceRoot}/build/**",
+                "D:/opencv4.5.5/OpenCV-MinGW-Build-OpenCV-4.5.5-x64/include/",
+                "C:/Users/Neo/Desktop/C++/C++lib/eigen-3.3.9"
+            ],
+            "windowsSdkVersion": "10.0.19041.0",
+            "compilerPath": "D:/Qt/Tools/mingw1120_64/bin/g++.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}

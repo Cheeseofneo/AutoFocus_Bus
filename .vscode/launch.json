@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/build/debug/ModbusMaster.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "D:/Qt/Tools/mingw1120_64/bin/gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "debug",
+            "visualizerFile": "c:\\Users\\Neo\\AppData\\Roaming\\Code\\User\\workspaceStorage\\3f4f653cdcf17b7dea22ff6e51c8c178\\tonka3000.qtvsctools\\qt.natvis.xml"
+        }
+    ]
+}

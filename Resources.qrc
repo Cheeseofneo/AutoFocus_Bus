@@ -9,5 +9,11 @@
         <file>images/books.png</file>
         <file>images/send.png</file>
         <file>images/Write.png</file>
+        <file>images/tools.png</file>
+        <file>images/forward.png</file>
+        <file>images/1D.png</file>
+        <file>images/camera.png</file>
+        <file>images/enable.png</file>
+        <file>images/disable.png</file>
     </qresource>
 </RCC>

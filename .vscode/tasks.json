@@ -1,0 +1,33 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "debug",
+            "type": "shell",
+            "command": "C:/Users/Neo/Desktop/AutoFocus/coding/main_dev/scripts/build_debug.bat debug",
+            "args": [
+                // "/c",
+                // "${workspaceRoot}/scripts/build_debug.bat",
+                // "debug"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "release",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "${workspaceRoot}/scripts/build_release.bat",
+                "release"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

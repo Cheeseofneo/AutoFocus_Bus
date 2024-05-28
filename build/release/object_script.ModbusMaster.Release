@@ -1,0 +1,17 @@
+release/main.o
+release/mainwindow.o
+release/lb_grab.o
+release/dial.o
+release/dialog.o
+release/posmode.o
+release/velocitymode.o
+release/dialog_config.o
+release/dialog_user.o
+release/lineccdview.o
+release/qcustomplot.o
+release/dataprocess.o
+release/Daubechies.o
+release/IQA.o
+release/LIQA.o
+release/savgol.o
+release/qrc_Resources.o

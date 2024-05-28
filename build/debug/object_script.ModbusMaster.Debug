@@ -1,0 +1,17 @@
+debug/main.o
+debug/mainwindow.o
+debug/lb_grab.o
+debug/dial.o
+debug/dialog.o
+debug/posmode.o
+debug/velocitymode.o
+debug/dialog_config.o
+debug/dialog_user.o
+debug/lineccdview.o
+debug/qcustomplot.o
+debug/dataprocess.o
+debug/Daubechies.o
+debug/IQA.o
+debug/LIQA.o
+debug/savgol.o
+debug/qrc_Resources.o
