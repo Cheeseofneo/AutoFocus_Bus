@@ -86,6 +86,10 @@ int LB_Grab::grabImg(unsigned int nImageNum, bool flag)
     }
     MV_CC_SetPixelFormat(handle, PixelType_Gvsp_Mono8);
 
+    // 设置自动曝光
+
+    //m_pcMyCamera->SetEnumValue("ExposureAuto", MV_EXPOSURE_AUTO_MODE_OFF);
+
     // 4.开始抓图
     nRet = MV_CC_StartGrabbing(handle);
     if (MV_OK != nRet)

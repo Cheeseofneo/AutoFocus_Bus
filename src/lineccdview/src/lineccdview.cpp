@@ -748,7 +748,7 @@ void lineccdview::on_pushButton_Save_clicked()
 {
     //将选中物质保存为文本数据
     ui->pushButton_Save->setEnabled(false);
-    QString selfilter ;
+    QString selfilter;
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Save Data"),
                                                     "",

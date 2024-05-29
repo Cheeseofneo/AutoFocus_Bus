@@ -16,8 +16,6 @@ LIQA::~LIQA(){
 std::vector<float> LIQA::readdata(){
 
     // read data from txt file in "int" format
-    // store data in "std::vector<int>
-    // return "std::vector<float>
 
     //    if (!m_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
     //        qWarning() << "Cannot open file for reading:" << file.errorString();
@@ -67,7 +65,7 @@ std::vector<float> LIQA::Savi_Golay_filter(std::vector<float> centroid, int wind
     return lineCCDdata_filtered;
 }
 
-std::pair<std::vector<float>,std::vector<float>> LIQA::windowing(
+std::pair<std::vector<float>, std::vector<float>> LIQA::windowing(
                 std::vector<float> lineCCDdata, int window_size, char* window_type="")
 {   
     auto max_element = std::max_element(lineCCDdata.begin(), lineCCDdata.end());
@@ -155,15 +153,15 @@ void LIQA::plotdata(std::vector<float> key, std::vector<float> value,std::vector
     // plt::named_plot("SG filterd centroid data",key, value);
     // plt::named_plot("origin centroid data",key, centroid);
 
-//    std::vector<float> zero(key.size(),0),y(tail-head,0),error(tail-head,0);
-//    std::vector subkey(key.begin()+head,key.begin()+tail);
-//    for (int i=0;i<subkey.size();i++){
-//        y[i]=(subkey[i]*params[0]+params[1]);
-//        error[i]=abs(value[head+i]-y[i]);
-//    }
-    
-//    auto errmax=std::max_element(error.begin(),error.end());
-//    std::cout<<"Max element is " << *errmax<< " at position " << std::distance(error.begin(),errmax) << std::endl;
+    //  std::vector<float> zero(key.size(),0),y(tail-head,0),error(tail-head,0);
+    //  std::vector subkey(key.begin()+head,key.begin()+tail);
+    //  for (int i=0;i<subkey.size();i++){
+    //      y[i]=(subkey[i]*params[0]+params[1]);
+    //      error[i]=abs(value[head+i]-y[i]);
+    //  }
+
+    //  auto errmax=std::max_element(error.begin(),error.end());
+    //  std::cout<<"Max element is " << *errmax<< " at position " << std::distance(error.begin(),errmax) << std::endl;
 
     // plt::named_plot("fitting curve",subkey,y);
     // plt::annotate("("+std::to_string(params[1])+",0)",params[1],0);

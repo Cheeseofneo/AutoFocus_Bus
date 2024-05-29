@@ -1,6 +1,7 @@
 debug/main.o
 debug/mainwindow.o
 debug/lb_grab.o
+debug/MvCamera.o
 debug/dial.o
 debug/dialog.o
 debug/posmode.o

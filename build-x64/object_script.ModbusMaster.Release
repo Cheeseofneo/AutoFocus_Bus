@@ -1,6 +1,7 @@
 release/main.o
 release/mainwindow.o
 release/lb_grab.o
+release/MvCamera.o
 release/dial.o
 release/dialog.o
 release/posmode.o

@@ -42,9 +42,14 @@ win32: LIBS +=  -LD:/opencv4.5.5/OpenCV-MinGW-Build-OpenCV-4.5.2-x64/x64/mingw/b
                 -llibopencv_photo452 \
                 -llibopencv_stitching452 \
                 -llibopencv_video452 \
-                -llibopencv_videoio452 \
+                -llibopencv_videoio452
 
-win32: LIBS += -LD:/hikrobotics/MVS/Development/Libraries/win64/ -lMvCameraControl
+
+win32: LIBS += -L$$PWD/Libraries/win64/ -lMvCameraControl
+
+INCLUDEPATH += $$PWD/src/cameracontrol/headers
+DEPENDPATH += $$PWD/src/cameracontrol/headers
+
 
 SOURCES += $$files($$PWD/src/*.cpp) \
            $$files($$PWD/src/cameracontrol/src/*.cpp) \
@@ -63,12 +68,17 @@ FORMS += \
 
 HEADERS += \
     src/cameracontrol/headers/CameraParams.h \
+    src/cameracontrol/headers/MvCamera.h \
     src/cameracontrol/headers/MvCameraControl.h \
     src/cameracontrol/headers/MvDeviceBase.h \
     src/cameracontrol/headers/MvErrorDefine.h \
     src/cameracontrol/headers/MvGigEDevice.h \
+    src/cameracontrol/headers/MvISPErrorDefine.h \
     src/cameracontrol/headers/MvInclude.h \
+    src/cameracontrol/headers/MvObsoleteInterfaces.h \
+    src/cameracontrol/headers/MvSdkExport.h \
     src/cameracontrol/headers/MvUsb3VDevice.h \
+    src/cameracontrol/headers/ObsoleteCamParams.h \
     src/cameracontrol/headers/PixelType.h \
     src/cameracontrol/headers/TlFactory.h \
     src/cameracontrol/headers/lb_grab.h \
@@ -86,5 +96,6 @@ HEADERS += \
     src/motorcontrol/headers/dialog.h \
     src/motorcontrol/headers/posmode.h \
     src/motorcontrol/headers/velocitymode.h
+
 
 

@@ -407,18 +407,16 @@ void MainWindow::on_actionSave_triggered()
 
     ui->actionSave->setEnabled(false);
 
-
-    // if(ui->textBrowser->toPlainText().isEmpty()){
-    //     QMessageBox::information(this, "提示消息", tr("貌似还没有数据! 您需要在发送编辑框中输入要发送的数据"), QMessageBox::Ok);
-    //     return;
-    // }
+//    if(ui->textBrowser->toPlainText().isEmpty()){
+//        QMessageBox::information(this, "提示消息", tr("貌似还没有数据! 您需要在发送编辑框中输入要发送的数据"), QMessageBox::Ok);
+//    }
 
 
-    // 路径选择的dialog
+    // command保存
     QString filename = QFileDialog::getSaveFileName(this, tr("保存为"), tr("未命名.txt"),tr("Text files (*.txt)"));
 
     QFile file(filename);
-    //如果用户取消了保存则直接退出函数
+
     if(file.fileName().isEmpty()){
      return;
     }
@@ -433,40 +431,43 @@ void MainWindow::on_actionSave_triggered()
     out<<ui->textBrowser->toPlainText();
     file.close();
 
+
     // lineCCD save
-    QString selfilter ;
-    QString fileName = QFileDialog::getSaveFileName(this,
-       tr("Save Data"),
+    QString selfilter;
+    QString lineccdfileName = QFileDialog::getSaveFileName(this,
+       tr("LineCCD Save Data"),
        "",
        tr("*.txt;;*.csv"),&selfilter);
-    if (!fileName.isNull())
+
+    if (!lineccdfileName.isNull())
     {
-     QFile file(fileName);
-     if(!file.open(QIODevice::WriteOnly  | QIODevice::Text|QIODevice::Truncate))
-     {
+        QFile file(fileName);
+        if(!file.open(QIODevice::WriteOnly  | QIODevice::Text|QIODevice::Truncate))
+        {
          QMessageBox::warning(this,"warning","can't open",QMessageBox::Yes);
-     }
-     QTextStream in(&file);
-     if(selfilter==("*.txt"))
-     {
+        }
+        QTextStream in(&file);
+        if(selfilter==("*.txt"))
+        {
          for(int i = 0;i<m_CCDData.length();i++)
          {
              in<<QString::number(m_CCDData_Pixels[i]) + " "+ QString::number(m_CCDData[i])<<"\n";
          }
-     }
-     else if(selfilter==("*.csv"))
-     {
+        }
+        else if(selfilter==("*.csv"))
+        {
          for(int i = 0;i<m_CCDData.length();i++)
          {
              in<<QString::number(m_CCDData_Pixels[i]) + ','+ QString::number(m_CCDData[i])<<"\n";
          }
-     }
-     file.close();
+        }
+        file.close();
     }
     else
     {
-     //点的是取消
+
     }
+
 
     ui->actionSave->setEnabled(true);
 }
