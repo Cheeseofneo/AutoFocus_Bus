@@ -12,11 +12,12 @@
 #include "lineccdview/headers/lineccdview.h"
 #include "motorcontrol/headers/velocitymode.h"
 #include "motorcontrol/headers/posmode.h"
-#include "dialog.h"
+#include "motorcontrol/headers/dialog.h"
 
 class dialog;
-class velocitymode;
 class posmode;
+class velocitymode;
+class DataCaptureThread;
 
 //QT_CHARTS_USE_NAMESPACE
 
@@ -41,11 +42,13 @@ public slots:
 
     void on_actionRefresh_triggered();
 
-    void on_actionConfig_triggered();
+    //void on_actionConfig_triggered();
+
+    void on_actionfocus_triggered();
 
     void on_actionSave_triggered();
 
-    void on_actionenable_triggered();
+    void on_actionmotorenable_triggered();
 
     void on_actiondisable_triggered();
 
@@ -67,7 +70,8 @@ public slots:
 
     void ReadSerialData();
 
-    void ChartDisplay();
+    //    void ChartDisplay();
+    //    void InitChart();
 
 private:
 
@@ -75,12 +79,10 @@ private:
 
     void SearchSerialPorts();
 
-    void InitChart();
-
     //QModbusDataUnit readRequest() const;
     void ReadRequest();
 
-    void WriteRequest(QList<quint16> values);
+    void WriteCommand(QList<quint16> values);
 
     void WriteCommand(int stationAddress,int startAddress, QVector<quint16> command);
 
@@ -90,26 +92,33 @@ private:
 
     void Steppermode();
 
+    void ReceiveCCDdata(QVector<double> data);
+
 public:
     Ui::MainWindow *ui;
+
+    // 遵循原则：将线程和控件在mainwindow下统一管理
+    // Widget and thread
+    dialog* Commtype;
+    lineccdview *m_widget;
+    velocitymode* m_vmode;
+    posmode *m_pmode;
+
+    // 成员变量通过继承得到调用
     QModbusClient *modbusDevice = nullptr;
-    lineccdview * m_widget;
     QString command_savepath;
     QString lineccddata_savepath;
     QString image_savepath;
 
 private:
-    dialog* Commtype;
-    velocitymode* m_vmode;
-    posmode *m_pmode;
 
     //QSerialPort *serialPort;
     QModbusReply *lastRequest = nullptr;
-
+    QVector<double> m_CCDData;
     QTimer *pollTimer;
-    //QChart *mChart;
-    //  QValueAxis *axisY;
-    //  QValueAxis *axisX;
+    // QChart *mChart;
+    // QValueAxis *axisY;
+    // QValueAxis *axisX;
     // QLineSeries *lineSeries[8];
     QTimer *chartTimer;
     uint16_t values[8];

@@ -31,7 +31,7 @@ bool LB_Grab::PrintDeviceInfo(MV_CC_DEVICE_INFO* pstMVDevInfo)
     return true;
 }
 
-int LB_Grab::grabImg(unsigned int nImageNum, bool flag)
+int LB_Grab::grabImg(unsigned int nImageNum, const char* savepath)
 {
     int nRet = MV_OK;
 
@@ -87,7 +87,6 @@ int LB_Grab::grabImg(unsigned int nImageNum, bool flag)
     MV_CC_SetPixelFormat(handle, PixelType_Gvsp_Mono8);
 
     // 设置自动曝光
-
     //m_pcMyCamera->SetEnumValue("ExposureAuto", MV_EXPOSURE_AUTO_MODE_OFF);
 
     // 4.开始抓图
@@ -105,44 +104,50 @@ int LB_Grab::grabImg(unsigned int nImageNum, bool flag)
     unsigned char * pData = (unsigned char *)malloc(sizeof(unsigned char) * MAX_IMAGE_DATA_SIZE);
     unsigned int nDataSize = MAX_IMAGE_DATA_SIZE;
 
-
     unsigned char* pImage = (unsigned char*)malloc(MAX_IMAGE_DATA_SIZE);
-    while(nImageNum)
+//    while(nImageNum)
+//    {
+    nRet = MV_CC_GetOneFrame(handle, pData, nDataSize, &stImageInfo);
+    if (nRet == MV_OK)
     {
-        nRet = MV_CC_GetOneFrame(handle, pData, nDataSize, &stImageInfo);
-        if (nRet == MV_OK)
-        {
-            printf("Width[%d],Height[%d],FrameNum[%d]\r\n", stImageInfo.nWidth, stImageInfo.nHeight, stImageInfo.nFrameNum);
-            nImageNum--;
+        printf("Width[%d],Height[%d],FrameNum[%d]\r\n", stImageInfo.nWidth, stImageInfo.nHeight, stImageInfo.nFrameNum);
+        nImageNum--;
 
-            //设置对应的相机参数
-            MV_SAVE_IMAGE_PARAM stParam;
-            stParam.enImageType = MV_Image_Bmp; //需要保存的图像类型
-            stParam.enPixelType = PixelType_Gvsp_Mono8;  //相机对应的像素格式
-            stParam.nBufferSize = MAX_IMAGE_DATA_SIZE;  //存储节点的大小
-            stParam.nWidth      = stImageInfo.nWidth;         //相机对应的宽
-            stParam.nHeight     = stImageInfo.nHeight;          //相机对应的高
-            stParam.nDataLen    = stImageInfo.nFrameLen;
-            stParam.pData       = pData;
-            stParam.pImageBuffer = pImage;
+        //设置对应的相机参数
+        MV_SAVE_IMAGE_PARAM stParam;
+        stParam.enImageType = MV_Image_Bmp; //需要保存的图像类型
+        stParam.enPixelType = PixelType_Gvsp_Mono8;  //相机对应的像素格式
+        stParam.nBufferSize = MAX_IMAGE_DATA_SIZE;   //存储节点的大小
+        stParam.nWidth      = stImageInfo.nWidth;         //相机对应的宽
+        stParam.nHeight     = stImageInfo.nHeight;        //相机对应的高
+        stParam.nDataLen    = stImageInfo.nFrameLen;
+        stParam.pData       = pData;
+        stParam.pImageBuffer = pImage;
 
-            nRet = MV_CC_SaveImage(&stParam);
-            if(MV_OK != nRet)
-           {
-                printf("failed in MV_CC_SaveImage,nRet[%x]\n", nRet);
-            }
-            char *pImageName = (char *)malloc(20);
-            sprintf_s(pImageName, 20, "%03d.bmp", 1);   //stImageInfo.nFrameNum
-            FILE* fp = fopen(pImageName, "wb");
-            fwrite(pImage, 1, stParam.nImageLen, fp);
-            fclose(fp);
-            free(pImageName);
-        }
-        else
+        // 保存图像
+        nRet = MV_CC_SaveImage(&stParam);
+        if(MV_OK != nRet)
         {
-            Sleep(2);
+            printf("failed in MV_CC_SaveImage,nRet[%x]\n", nRet);
         }
+
+        char *pImageName = (char *)malloc(30);
+        char *temp = (char *)malloc(10);
+        sprintf_s(temp, 10, "%03d.bmp", nImageNum);
+        sprintf_s(pImageName, 30, "%s/%s", savepath, temp);
+
+        //sprintf_s(pImageName, 30, "%03d.bmp", nImageNum);   //stImageInfo.nFrameNum
+
+        FILE* fp = fopen(pImageName, "wb");
+        fwrite(pImage, 1, stParam.nImageLen, fp);
+        fclose(fp);
+        free(pImageName);
     }
+    else
+    {
+        Sleep(2);
+    }
+//    }
     free(pData);
     free(pImage);
 

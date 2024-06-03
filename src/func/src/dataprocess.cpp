@@ -7,11 +7,6 @@ DataProcess::DataProcess()
 
 DataProcess::~DataProcess(){}
 
-void DataProcess::get_CCDdata(QVector<double>){
-    
-}
-
-
 int DataProcess::FindFocus(QString img_path)
 {
     // specify python interpreter
@@ -22,14 +17,8 @@ int DataProcess::FindFocus(QString img_path)
     std::vector<float> TAG,SG,BG,TG,SML,D6,ENT;
     std::vector<float> z_pos_img;
 
-    // std::vector<std::filesystem::directory_entry> entries_img;
-    // renamefile(img_path); //change the file name to a number sequence
-    // for (const auto& entry : std::filesystem::directory_iterator(img_path)) {
-    //    entries_img.push_back(entry);
-    // }
-
     QDir dir(img_path);
-    QFileInfoList entries_img = dir.entryInfoList(QStringList() << "*.bmp",QDir::Files | QDir::NoDotAndDotDot);
+    QFileInfoList entries_img = dir.entryInfoList(QStringList() << "*.bmp",QDir::Files|QDir::NoDotAndDotDot, QDir::Time);
 
     //sort files in sequence
     std::sort(entries_img.begin(), entries_img.end(), [](const QFileInfo& a, const QFileInfo& b) {
@@ -38,10 +27,9 @@ int DataProcess::FindFocus(QString img_path)
 
     for(const auto& entry: entries_img)
     {
-
-        QString oldFilePath = entry.absoluteFilePath();
-        cv::Mat image = cv::imread(oldFilePath.toStdString());
-        z_pos_img.push_back(entry.baseName().toFloat());
+        QString FilePath = entry.absoluteFilePath();
+        cv::Mat image = cv::imread(FilePath.toStdString());
+        z_pos_img.push_back(entry.baseName().toInt());
         if (!image.empty()) {
             IQA test(image);
             TAG.push_back(test.Threshold_Absolute_Gradient());
@@ -52,13 +40,10 @@ int DataProcess::FindFocus(QString img_path)
             ENT.push_back(test.Entropy());
             // D6.push_back(test.Daubechies_wavelet());
         }
-
-
     }
 
     std::vector<float> focus;
     int focuspos;
-    
     // 将以下语句封装
     normalize(TAG, TAG, 0, 1, cv::NORM_MINMAX);
     auto TAGmax=std::max_element(TAG.begin(),TAG.end());
@@ -94,12 +79,11 @@ int DataProcess::FindFocus(QString img_path)
     // auto D6max=std::max_element(D6.begin(),D6.end());
     // std::cout<<"Max element is " << *D6max<< " at position " << std::distance(D6.begin(),D6max) << std::endl;
 
-
     // remove the error value
-    sort(focus.begin(),focus.end());
-    [&focus,focuspos]()mutable{
-                if (focus.size()%2 == 0) focuspos = int((focus[focus.size()/2]+focus[focus.size()/2-1])/2);
-                else focuspos = focus[int(focus.size()/2)]; };
+    std::sort(focus.begin(),focus.end());
+    [&focus,&focuspos]()mutable{
+            if (focus.size()%2 == 0) focuspos = int((focus[focus.size()/2]+focus[focus.size()/2-1])/2);
+            else focuspos = focus[int(focus.size()/2)]; };
     return focuspos;
 }
 
@@ -109,36 +93,25 @@ std::vector<int> DataProcess::Calibrate(QString img_path, QString lineCCDdata_pa
     std::vector<float> z_pos_lineccd;
     std::vector<float> Centroid_DATA;
 
-
-    //    std::vector<std::filesystem::directory_entry> entries_lineccd;
-    //    for (const auto& entry : std::filesystem::directory_iterator(lineCCDdata_path)){
-    //        entries_lineccd.push_back(entry);
-    //    }
-    //    std::sort(entries_lineccd.begin(), entries_lineccd.end(), [](const std::filesystem::directory_entry& a,
-    //                                                                 const std::filesystem::directory_entry& b) {
-    //        return digit_extract(a.path().filename().string()) < digit_extract(b.path().filename().string());
-    //    });
-
     QDir dir(lineCCDdata_path);
-    QFileInfoList entries_lineccd = dir.entryInfoList(QStringList() << "*.txt",QDir::Files | QDir::NoDotAndDotDot);
+    QFileInfoList entries_lineccd = dir.entryInfoList(QStringList() << "*.txt", QDir::Files | QDir::NoDotAndDotDot, QDir::Time);
 
     //sort files in sequence
     std::sort(entries_lineccd.begin(), entries_lineccd.end(), [](const QFileInfo& a, const QFileInfo& b) {
         return digit_extract(a.fileName().toStdString()) < digit_extract(b.fileName().toStdString());
     });
 
-
     for (auto& entry : entries_lineccd)
     {
         std::vector<float> lineCCDdata;
         QString filename = entry.absoluteFilePath();
-        z_pos_lineccd.push_back(entry.baseName().toFloat());
+        z_pos_lineccd.push_back(entry.baseName().toInt());
         LIQA temp(filename);
         lineCCDdata=temp.readdata();
         Centroid_DATA.push_back(temp.centroid(lineCCDdata));
 
     }
-    auto focus=Centroid_DATA[FindFocus(img_path)];
+    auto focus= Centroid_DATA[FindFocus(img_path)];
 
     // TODO:优化减法速度
     for (auto& element : Centroid_DATA) {
@@ -149,43 +122,21 @@ std::vector<int> DataProcess::Calibrate(QString img_path, QString lineCCDdata_pa
     std::vector<float> m_lineCCD=LIQA(entries_lineccd[0].absoluteFilePath()).Savi_Golay_filter(Centroid_DATA,11,3);
     std::vector<float> params=LIQA(entries_lineccd[0].absoluteFilePath()).Calibration_params(m_lineCCD,head,len);
     std::cout<<"The func of dis is: "<<params[0]<<"x+"<<params[1]<<std::endl;
-
 }
 
-//void DataProcess::renamefile(std::string path){
+int DataProcess::offset_calculate(QVector<double> data, int focus){
 
-//    std::vector<std::filesystem::directory_entry> entries;
-
-//    for (const auto& entry : std::filesystem::directory_iterator(path)) {
-//        entries.push_back(entry);
-//    }
-
-//    std::sort(entries.begin(), entries.end(), [](const std::filesystem::directory_entry& a, const std::filesystem::directory_entry& b) {
-//        return digit_extract(a.path().filename().string()) < digit_extract(b.path().filename().string());
-//    });
-
-//    // rename the files in a folder to a number suequence
-//    int i=1;
-//    for (auto& entry : entries)
-//    {
-//        if (std::filesystem::is_regular_file(entry) ) {
-//            std::string oldFilePath = entry.path().string();
-//            std::string newFilePath = path + "/" + std::to_string(i) + entry.path().extension().string();
-//            std::filesystem::rename(oldFilePath, newFilePath);
-//            i++;
-//        }
-//    }
-//}
+    int centroid = LIQA("C:/").centroid(data.toStdVector());
+    return focus-centroid;
+}
 
 int DataProcess::digit_extract(std::string input){
 
     std::regex pattern("\\d+");
     std::smatch match;
     std::string result;
-
     if (std::regex_search(input, match, pattern)) {
         result = match.str();
     }
-
     return std::stoi(result);
 }

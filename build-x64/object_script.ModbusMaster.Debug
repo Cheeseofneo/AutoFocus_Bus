@@ -15,6 +15,7 @@ debug/dialog_config.o
 debug/dialog_user.o
 debug/lineccdview.o
 debug/qcustomplot.o
+debug/qrc_Resources.o
 debug/moc_dialog_config.o
 debug/moc_dialog_user.o
 debug/moc_lineccdview.o

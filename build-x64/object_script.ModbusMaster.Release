@@ -15,6 +15,7 @@ release/dialog_config.o
 release/dialog_user.o
 release/lineccdview.o
 release/qcustomplot.o
+release/qrc_Resources.o
 release/moc_dialog_config.o
 release/moc_dialog_user.o
 release/moc_lineccdview.o

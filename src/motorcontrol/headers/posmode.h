@@ -8,11 +8,11 @@
 #include <QMessageBox>
 #include <QModbusDevice>
 
-
 #include "lb_grab.h"
-#include "lineccdview/headers/lineccdview.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "lineccdview/headers/lineccdview.h"
+#include "func/headers/dataprocess.h"
 
 namespace Ui {
 class posmode;
@@ -36,21 +36,28 @@ class DataCaptureThread : public QThread
     private:
         int lineccdcapture(int index);
         void WriteCommand(int stationAddress,int startAddress, QVector<quint16> command);
+        void ProcessData();
+        void Calibrate_value();
 
+    public:
+        QString m_imagesavapath;
+        QString m_lineccdsavepath;
+
+    private:
         volatile bool stopped;
         int offset = 0;
         int step = 0;
         int stepNum = 0;
+        int focus = 0;
         QModbusClient *m_device;
         QSerialPort *m_Com;
-        QString m_imagesavapath;
-        QString m_lineccdsavepath;
         QVector<double> m_CCDData;
 };
 
 class posmode : public QDialog
 {
     Q_OBJECT
+
 public:
     explicit posmode(QWidget *parent = nullptr);
     ~posmode();
@@ -72,10 +79,10 @@ private slots:
     void on_pushButtonendp2p_clicked();
     void timedelay();
     int postopulse(double pos);
+
 private:
     Ui::posmode *ui;
     MainWindow *m_mainwindow;
-    lineccdview *m_widget;
     QTimer *dataprocessTimer;
     DataCaptureThread *m_capturethread;
 };

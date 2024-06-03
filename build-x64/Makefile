@@ -33,7 +33,7 @@ IDC           = idc
 IDL           = midl
 ZIP           = zip -r -9
 DEF_FILE      = 
-RES_FILE      = 
+RES_FILE      = ModbusMaster_resource_res.o
 SED           = $(QMAKE) -install sed
 MOVE          = move
 SUBTARGETS    =  \
@@ -258,7 +258,8 @@ Makefile: ../ModbusMaster.pro C:/Qt/5.15.2/mingw81_64/mkspecs/win32-g++/qmake.co
 		C:/Qt/5.15.2/mingw81_64/lib/Qt5SerialPort.prl \
 		C:/Qt/5.15.2/mingw81_64/lib/Qt5SerialBus.prl \
 		C:/Qt/5.15.2/mingw81_64/lib/Qt5Core.prl \
-		C:/Qt/5.15.2/mingw81_64/mkspecs/features/build_pass.prf
+		C:/Qt/5.15.2/mingw81_64/mkspecs/features/build_pass.prf \
+		../Resources.qrc
 	$(QMAKE) -o Makefile ..\ModbusMaster.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
 C:/Qt/5.15.2/mingw81_64/mkspecs/features/spec_pre.prf:
 C:/Qt/5.15.2/mingw81_64/mkspecs/qdevice.pri:
@@ -449,6 +450,7 @@ C:/Qt/5.15.2/mingw81_64/lib/Qt5SerialPort.prl:
 C:/Qt/5.15.2/mingw81_64/lib/Qt5SerialBus.prl:
 C:/Qt/5.15.2/mingw81_64/lib/Qt5Core.prl:
 C:/Qt/5.15.2/mingw81_64/mkspecs/features/build_pass.prf:
+../Resources.qrc:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ..\ModbusMaster.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
 

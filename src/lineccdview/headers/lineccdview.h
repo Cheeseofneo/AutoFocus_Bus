@@ -8,6 +8,9 @@
 #include <QTextEdit>
 #include "dialog_config.h"
 
+
+class MainWindow;
+
 namespace Ui {
     class Widget;
 }
@@ -86,11 +89,14 @@ class lineccdview : public QWidget
         int m_groupBox_5;
         Dialog_config* m_DlgConfig;
 
+
     private slots:
 
         void on_pushButton_Close_clicked();
 
         void readMyCom(QByteArray str);
+
+        void Bandrate_read();
 
         void timerUpDate();
 
@@ -144,8 +150,7 @@ class lineccdview : public QWidget
 
         void on_pushButton_filter_clicked();
 
-        void on_pushButton_Bandrate_read_clicked();
-
+        //    void on_pushButton_Bandrate_read_clicked();
         //    void on_pushButton_Setting_clicked();
         //    void on_checkBox_sync_stateChanged(int arg1);
         //    void on_pushButton_SetGain_clicked();
@@ -162,7 +167,7 @@ class lineccdview : public QWidget
 
     private:
         Ui::Widget *ui;
-        
+
         bool initmyCom();
         void writeMyCom(QString str);
         void String2Hex(QString str, QByteArray &senddata);

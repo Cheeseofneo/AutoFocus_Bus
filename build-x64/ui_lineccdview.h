@@ -56,22 +56,22 @@ public:
     QLabel *label_lost;
     QLabel *label_23;
     QProgressBar *progressBar;
-    QLabel *label_ComSta;
     QWidget *layoutWidget1;
     QGridLayout *gridLayout;
-    QLabel *label_16;
-    QComboBox *comboBox;
-    QPushButton *pushButton_Open;
-    QPushButton *pushButton_Close;
     QPushButton *pushButton_Cou;
-    QPushButton *pushButton_Send;
-    QPushButton *pushButton_Pause;
+    QComboBox *comboBox;
     QLabel *label_17;
     QLineEdit *lineEdit_Int;
-    QComboBox *comboBox_unit;
-    QPushButton *pushButton_SetInt;
-    QPushButton *pushButton_GetDark;
     QCheckBox *checkBox_removeDark;
+    QPushButton *pushButton_Close;
+    QLabel *label_16;
+    QPushButton *pushButton_GetDark;
+    QPushButton *pushButton_SetInt;
+    QPushButton *pushButton_Pause;
+    QComboBox *comboBox_unit;
+    QPushButton *pushButton_Send;
+    QPushButton *pushButton_Open;
+    QLabel *label_ComSta;
     QWidget *layoutWidget2;
     QGridLayout *gridLayout_2;
     QLineEdit *lineEdit_Filterlevel;
@@ -105,7 +105,13 @@ public:
     {
         if (Widget->objectName().isEmpty())
             Widget->setObjectName(QString::fromUtf8("Widget"));
-        Widget->resize(969, 622);
+        Widget->resize(992, 622);
+        QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(Widget->sizePolicy().hasHeightForWidth());
+        Widget->setSizePolicy(sizePolicy);
+        Widget->setMinimumSize(QSize(100, 0));
         groupBox_6 = new QGroupBox(Widget);
         groupBox_6->setObjectName(QString::fromUtf8("groupBox_6"));
         groupBox_6->setGeometry(QRect(10, 10, 831, 601));
@@ -119,11 +125,11 @@ public:
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         plot = new QCustomPlot(layoutWidget);
         plot->setObjectName(QString::fromUtf8("plot"));
-        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(plot->sizePolicy().hasHeightForWidth());
-        plot->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(plot->sizePolicy().hasHeightForWidth());
+        plot->setSizePolicy(sizePolicy1);
         plot->setMinimumSize(QSize(600, 200));
         plot->setMaximumSize(QSize(810, 16777215));
         line_2 = new QFrame(plot);
@@ -188,11 +194,11 @@ public:
 
         label_f2 = new QLabel(layoutWidget);
         label_f2->setObjectName(QString::fromUtf8("label_f2"));
-        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(label_f2->sizePolicy().hasHeightForWidth());
-        label_f2->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(label_f2->sizePolicy().hasHeightForWidth());
+        label_f2->setSizePolicy(sizePolicy2);
         label_f2->setMaximumSize(QSize(1000, 16777215));
         label_f2->setFont(font);
         label_f2->setAlignment(Qt::AlignCenter);
@@ -202,8 +208,8 @@ public:
 
         label_f = new QLabel(layoutWidget);
         label_f->setObjectName(QString::fromUtf8("label_f"));
-        sizePolicy1.setHeightForWidth(label_f->sizePolicy().hasHeightForWidth());
-        label_f->setSizePolicy(sizePolicy1);
+        sizePolicy2.setHeightForWidth(label_f->sizePolicy().hasHeightForWidth());
+        label_f->setSizePolicy(sizePolicy2);
         label_f->setMaximumSize(QSize(1000, 16777215));
         label_f->setFont(font);
         label_f->setAlignment(Qt::AlignCenter);
@@ -235,11 +241,11 @@ public:
 
         progressBar = new QProgressBar(layoutWidget);
         progressBar->setObjectName(QString::fromUtf8("progressBar"));
-        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(progressBar->sizePolicy().hasHeightForWidth());
-        progressBar->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(progressBar->sizePolicy().hasHeightForWidth());
+        progressBar->setSizePolicy(sizePolicy3);
         progressBar->setMinimumSize(QSize(150, 0));
         progressBar->setValue(24);
 
@@ -251,50 +257,58 @@ public:
 
         horizontalLayout_3->addLayout(verticalLayout_3);
 
-        label_ComSta = new QLabel(groupBox_6);
-        label_ComSta->setObjectName(QString::fromUtf8("label_ComSta"));
-        label_ComSta->setGeometry(QRect(66, 13, 30, 30));
-        label_ComSta->setMinimumSize(QSize(30, 30));
-        label_ComSta->setMaximumSize(QSize(30, 30));
-        label_ComSta->setPixmap(QPixmap(QString::fromUtf8(":/res/invisible.png")));
-        label_ComSta->setScaledContents(true);
-        label_ComSta->setWordWrap(false);
         layoutWidget1 = new QWidget(groupBox_6);
         layoutWidget1->setObjectName(QString::fromUtf8("layoutWidget1"));
         layoutWidget1->setGeometry(QRect(10, 10, 811, 35));
         gridLayout = new QGridLayout(layoutWidget1);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         gridLayout->setContentsMargins(0, 0, 0, 0);
-        label_16 = new QLabel(layoutWidget1);
-        label_16->setObjectName(QString::fromUtf8("label_16"));
-        QSizePolicy sizePolicy3(QSizePolicy::Minimum, QSizePolicy::Preferred);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(label_16->sizePolicy().hasHeightForWidth());
-        label_16->setSizePolicy(sizePolicy3);
-        label_16->setMaximumSize(QSize(100, 16777215));
-        label_16->setScaledContents(false);
+        pushButton_Cou = new QPushButton(layoutWidget1);
+        pushButton_Cou->setObjectName(QString::fromUtf8("pushButton_Cou"));
+        QSizePolicy sizePolicy4(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(pushButton_Cou->sizePolicy().hasHeightForWidth());
+        pushButton_Cou->setSizePolicy(sizePolicy4);
+        pushButton_Cou->setMinimumSize(QSize(0, 30));
+        pushButton_Cou->setMaximumSize(QSize(50, 16777215));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/images/images/media-seek-forward-7.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton_Cou->setIcon(icon);
+        pushButton_Cou->setIconSize(QSize(24, 24));
 
-        gridLayout->addWidget(label_16, 0, 0, 2, 1);
+        gridLayout->addWidget(pushButton_Cou, 0, 5, 2, 1);
 
         comboBox = new QComboBox(layoutWidget1);
         comboBox->setObjectName(QString::fromUtf8("comboBox"));
         comboBox->setMinimumSize(QSize(0, 30));
         comboBox->setMaximumSize(QSize(70, 16777215));
 
-        gridLayout->addWidget(comboBox, 0, 1, 2, 1);
+        gridLayout->addWidget(comboBox, 0, 2, 2, 1);
 
-        pushButton_Open = new QPushButton(layoutWidget1);
-        pushButton_Open->setObjectName(QString::fromUtf8("pushButton_Open"));
-        QSizePolicy sizePolicy4(QSizePolicy::Expanding, QSizePolicy::Fixed);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(pushButton_Open->sizePolicy().hasHeightForWidth());
-        pushButton_Open->setSizePolicy(sizePolicy4);
-        pushButton_Open->setMinimumSize(QSize(0, 30));
-        pushButton_Open->setMaximumSize(QSize(40, 16777215));
+        label_17 = new QLabel(layoutWidget1);
+        label_17->setObjectName(QString::fromUtf8("label_17"));
+        label_17->setMaximumSize(QSize(120, 16777215));
 
-        gridLayout->addWidget(pushButton_Open, 0, 2, 2, 1);
+        gridLayout->addWidget(label_17, 0, 8, 2, 1);
+
+        lineEdit_Int = new QLineEdit(layoutWidget1);
+        lineEdit_Int->setObjectName(QString::fromUtf8("lineEdit_Int"));
+        sizePolicy2.setHeightForWidth(lineEdit_Int->sizePolicy().hasHeightForWidth());
+        lineEdit_Int->setSizePolicy(sizePolicy2);
+        lineEdit_Int->setMinimumSize(QSize(0, 30));
+        lineEdit_Int->setMaximumSize(QSize(50, 16777215));
+
+        gridLayout->addWidget(lineEdit_Int, 0, 9, 2, 1);
+
+        checkBox_removeDark = new QCheckBox(layoutWidget1);
+        checkBox_removeDark->setObjectName(QString::fromUtf8("checkBox_removeDark"));
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/images/images/RemoveDark.png"), QSize(), QIcon::Normal, QIcon::Off);
+        checkBox_removeDark->setIcon(icon1);
+        checkBox_removeDark->setIconSize(QSize(24, 24));
+
+        gridLayout->addWidget(checkBox_removeDark, 0, 13, 2, 1);
 
         pushButton_Close = new QPushButton(layoutWidget1);
         pushButton_Close->setObjectName(QString::fromUtf8("pushButton_Close"));
@@ -303,69 +317,31 @@ public:
         pushButton_Close->setMinimumSize(QSize(30, 30));
         pushButton_Close->setMaximumSize(QSize(60, 16777215));
 
-        gridLayout->addWidget(pushButton_Close, 0, 3, 2, 1);
+        gridLayout->addWidget(pushButton_Close, 0, 4, 2, 1);
 
-        pushButton_Cou = new QPushButton(layoutWidget1);
-        pushButton_Cou->setObjectName(QString::fromUtf8("pushButton_Cou"));
-        sizePolicy4.setHeightForWidth(pushButton_Cou->sizePolicy().hasHeightForWidth());
-        pushButton_Cou->setSizePolicy(sizePolicy4);
-        pushButton_Cou->setMinimumSize(QSize(0, 30));
-        pushButton_Cou->setMaximumSize(QSize(50, 16777215));
-        QIcon icon;
-        icon.addFile(QString::fromUtf8(":/res/media-seek-forward-7.png"), QSize(), QIcon::Normal, QIcon::Off);
-        pushButton_Cou->setIcon(icon);
-        pushButton_Cou->setIconSize(QSize(24, 24));
+        label_16 = new QLabel(layoutWidget1);
+        label_16->setObjectName(QString::fromUtf8("label_16"));
+        sizePolicy.setHeightForWidth(label_16->sizePolicy().hasHeightForWidth());
+        label_16->setSizePolicy(sizePolicy);
+        label_16->setMaximumSize(QSize(100, 16777215));
+        label_16->setScaledContents(false);
 
-        gridLayout->addWidget(pushButton_Cou, 0, 4, 2, 1);
+        gridLayout->addWidget(label_16, 0, 0, 2, 1);
 
-        pushButton_Send = new QPushButton(layoutWidget1);
-        pushButton_Send->setObjectName(QString::fromUtf8("pushButton_Send"));
-        sizePolicy4.setHeightForWidth(pushButton_Send->sizePolicy().hasHeightForWidth());
-        pushButton_Send->setSizePolicy(sizePolicy4);
-        pushButton_Send->setMinimumSize(QSize(0, 30));
-        pushButton_Send->setMaximumSize(QSize(50, 16777215));
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8(":/res/media-playback-start.png"), QSize(), QIcon::Normal, QIcon::Off);
-        pushButton_Send->setIcon(icon1);
-        pushButton_Send->setIconSize(QSize(24, 24));
-
-        gridLayout->addWidget(pushButton_Send, 0, 5, 2, 1);
-
-        pushButton_Pause = new QPushButton(layoutWidget1);
-        pushButton_Pause->setObjectName(QString::fromUtf8("pushButton_Pause"));
-        sizePolicy4.setHeightForWidth(pushButton_Pause->sizePolicy().hasHeightForWidth());
-        pushButton_Pause->setSizePolicy(sizePolicy4);
-        pushButton_Pause->setMinimumSize(QSize(0, 30));
-        pushButton_Pause->setMaximumSize(QSize(50, 16777215));
+        pushButton_GetDark = new QPushButton(layoutWidget1);
+        pushButton_GetDark->setObjectName(QString::fromUtf8("pushButton_GetDark"));
+        sizePolicy4.setHeightForWidth(pushButton_GetDark->sizePolicy().hasHeightForWidth());
+        pushButton_GetDark->setSizePolicy(sizePolicy4);
+        pushButton_GetDark->setMinimumSize(QSize(0, 30));
+        pushButton_GetDark->setMaximumSize(QSize(30, 16777215));
         QIcon icon2;
-        icon2.addFile(QString::fromUtf8(":/res/media-playback-pause.png"), QSize(), QIcon::Normal, QIcon::Off);
-        pushButton_Pause->setIcon(icon2);
+        icon2.addFile(QString::fromUtf8(":/images/images/Dark.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton_GetDark->setIcon(icon2);
+        pushButton_GetDark->setIconSize(QSize(24, 24));
+        pushButton_GetDark->setAutoDefault(false);
+        pushButton_GetDark->setFlat(false);
 
-        gridLayout->addWidget(pushButton_Pause, 0, 6, 2, 1);
-
-        label_17 = new QLabel(layoutWidget1);
-        label_17->setObjectName(QString::fromUtf8("label_17"));
-        label_17->setMaximumSize(QSize(120, 16777215));
-
-        gridLayout->addWidget(label_17, 0, 7, 2, 1);
-
-        lineEdit_Int = new QLineEdit(layoutWidget1);
-        lineEdit_Int->setObjectName(QString::fromUtf8("lineEdit_Int"));
-        sizePolicy1.setHeightForWidth(lineEdit_Int->sizePolicy().hasHeightForWidth());
-        lineEdit_Int->setSizePolicy(sizePolicy1);
-        lineEdit_Int->setMinimumSize(QSize(0, 30));
-        lineEdit_Int->setMaximumSize(QSize(50, 16777215));
-
-        gridLayout->addWidget(lineEdit_Int, 0, 8, 2, 1);
-
-        comboBox_unit = new QComboBox(layoutWidget1);
-        comboBox_unit->addItem(QString());
-        comboBox_unit->addItem(QString());
-        comboBox_unit->setObjectName(QString::fromUtf8("comboBox_unit"));
-        comboBox_unit->setMinimumSize(QSize(0, 30));
-        comboBox_unit->setMaximumSize(QSize(50, 16777215));
-
-        gridLayout->addWidget(comboBox_unit, 0, 9, 2, 1);
+        gridLayout->addWidget(pushButton_GetDark, 0, 12, 2, 1);
 
         pushButton_SetInt = new QPushButton(layoutWidget1);
         pushButton_SetInt->setObjectName(QString::fromUtf8("pushButton_SetInt"));
@@ -374,31 +350,60 @@ public:
         pushButton_SetInt->setMinimumSize(QSize(0, 30));
         pushButton_SetInt->setMaximumSize(QSize(40, 16777215));
 
-        gridLayout->addWidget(pushButton_SetInt, 0, 10, 2, 1);
+        gridLayout->addWidget(pushButton_SetInt, 0, 11, 2, 1);
 
-        pushButton_GetDark = new QPushButton(layoutWidget1);
-        pushButton_GetDark->setObjectName(QString::fromUtf8("pushButton_GetDark"));
-        sizePolicy4.setHeightForWidth(pushButton_GetDark->sizePolicy().hasHeightForWidth());
-        pushButton_GetDark->setSizePolicy(sizePolicy4);
-        pushButton_GetDark->setMinimumSize(QSize(0, 30));
-        pushButton_GetDark->setMaximumSize(QSize(30, 16777215));
+        pushButton_Pause = new QPushButton(layoutWidget1);
+        pushButton_Pause->setObjectName(QString::fromUtf8("pushButton_Pause"));
+        sizePolicy4.setHeightForWidth(pushButton_Pause->sizePolicy().hasHeightForWidth());
+        pushButton_Pause->setSizePolicy(sizePolicy4);
+        pushButton_Pause->setMinimumSize(QSize(0, 30));
+        pushButton_Pause->setMaximumSize(QSize(50, 16777215));
         QIcon icon3;
-        icon3.addFile(QString::fromUtf8(":/res/Dark.png"), QSize(), QIcon::Normal, QIcon::Off);
-        pushButton_GetDark->setIcon(icon3);
-        pushButton_GetDark->setIconSize(QSize(24, 24));
-        pushButton_GetDark->setAutoDefault(false);
-        pushButton_GetDark->setFlat(false);
+        icon3.addFile(QString::fromUtf8(":/images/images/media-playback-pause.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton_Pause->setIcon(icon3);
 
-        gridLayout->addWidget(pushButton_GetDark, 0, 11, 2, 1);
+        gridLayout->addWidget(pushButton_Pause, 0, 7, 2, 1);
 
-        checkBox_removeDark = new QCheckBox(layoutWidget1);
-        checkBox_removeDark->setObjectName(QString::fromUtf8("checkBox_removeDark"));
+        comboBox_unit = new QComboBox(layoutWidget1);
+        comboBox_unit->addItem(QString());
+        comboBox_unit->addItem(QString());
+        comboBox_unit->setObjectName(QString::fromUtf8("comboBox_unit"));
+        comboBox_unit->setMinimumSize(QSize(0, 30));
+        comboBox_unit->setMaximumSize(QSize(50, 16777215));
+
+        gridLayout->addWidget(comboBox_unit, 0, 10, 2, 1);
+
+        pushButton_Send = new QPushButton(layoutWidget1);
+        pushButton_Send->setObjectName(QString::fromUtf8("pushButton_Send"));
+        sizePolicy4.setHeightForWidth(pushButton_Send->sizePolicy().hasHeightForWidth());
+        pushButton_Send->setSizePolicy(sizePolicy4);
+        pushButton_Send->setMinimumSize(QSize(0, 30));
+        pushButton_Send->setMaximumSize(QSize(50, 16777215));
         QIcon icon4;
-        icon4.addFile(QString::fromUtf8(":/res/RemoveDark.png"), QSize(), QIcon::Normal, QIcon::Off);
-        checkBox_removeDark->setIcon(icon4);
-        checkBox_removeDark->setIconSize(QSize(24, 24));
+        icon4.addFile(QString::fromUtf8(":/images/images/media-playback-start.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton_Send->setIcon(icon4);
+        pushButton_Send->setIconSize(QSize(24, 24));
 
-        gridLayout->addWidget(checkBox_removeDark, 0, 12, 2, 1);
+        gridLayout->addWidget(pushButton_Send, 0, 6, 2, 1);
+
+        pushButton_Open = new QPushButton(layoutWidget1);
+        pushButton_Open->setObjectName(QString::fromUtf8("pushButton_Open"));
+        sizePolicy4.setHeightForWidth(pushButton_Open->sizePolicy().hasHeightForWidth());
+        pushButton_Open->setSizePolicy(sizePolicy4);
+        pushButton_Open->setMinimumSize(QSize(0, 30));
+        pushButton_Open->setMaximumSize(QSize(40, 16777215));
+
+        gridLayout->addWidget(pushButton_Open, 0, 3, 2, 1);
+
+        label_ComSta = new QLabel(layoutWidget1);
+        label_ComSta->setObjectName(QString::fromUtf8("label_ComSta"));
+        label_ComSta->setMinimumSize(QSize(30, 30));
+        label_ComSta->setMaximumSize(QSize(30, 30));
+        label_ComSta->setPixmap(QPixmap(QString::fromUtf8(":/images/images/invisible.png")));
+        label_ComSta->setScaledContents(true);
+        label_ComSta->setWordWrap(false);
+
+        gridLayout->addWidget(label_ComSta, 0, 1, 1, 1);
 
         layoutWidget2 = new QWidget(groupBox_6);
         layoutWidget2->setObjectName(QString::fromUtf8("layoutWidget2"));
@@ -408,8 +413,8 @@ public:
         gridLayout_2->setContentsMargins(0, 0, 0, 0);
         lineEdit_Filterlevel = new QLineEdit(layoutWidget2);
         lineEdit_Filterlevel->setObjectName(QString::fromUtf8("lineEdit_Filterlevel"));
-        sizePolicy1.setHeightForWidth(lineEdit_Filterlevel->sizePolicy().hasHeightForWidth());
-        lineEdit_Filterlevel->setSizePolicy(sizePolicy1);
+        sizePolicy2.setHeightForWidth(lineEdit_Filterlevel->sizePolicy().hasHeightForWidth());
+        lineEdit_Filterlevel->setSizePolicy(sizePolicy2);
         lineEdit_Filterlevel->setMinimumSize(QSize(0, 30));
         lineEdit_Filterlevel->setMaximumSize(QSize(30, 16777215));
 
@@ -423,8 +428,8 @@ public:
 
         lineEdit_Avg = new QLineEdit(layoutWidget2);
         lineEdit_Avg->setObjectName(QString::fromUtf8("lineEdit_Avg"));
-        sizePolicy1.setHeightForWidth(lineEdit_Avg->sizePolicy().hasHeightForWidth());
-        lineEdit_Avg->setSizePolicy(sizePolicy1);
+        sizePolicy2.setHeightForWidth(lineEdit_Avg->sizePolicy().hasHeightForWidth());
+        lineEdit_Avg->setSizePolicy(sizePolicy2);
         lineEdit_Avg->setMinimumSize(QSize(0, 30));
         lineEdit_Avg->setMaximumSize(QSize(30, 16777215));
 
@@ -441,8 +446,8 @@ public:
 
         lineEdit_interval = new QLineEdit(layoutWidget2);
         lineEdit_interval->setObjectName(QString::fromUtf8("lineEdit_interval"));
-        sizePolicy1.setHeightForWidth(lineEdit_interval->sizePolicy().hasHeightForWidth());
-        lineEdit_interval->setSizePolicy(sizePolicy1);
+        sizePolicy2.setHeightForWidth(lineEdit_interval->sizePolicy().hasHeightForWidth());
+        lineEdit_interval->setSizePolicy(sizePolicy2);
         lineEdit_interval->setMinimumSize(QSize(0, 30));
         lineEdit_interval->setMaximumSize(QSize(30, 16777215));
 
@@ -463,8 +468,8 @@ public:
 
         lineEdit_smooth = new QLineEdit(layoutWidget2);
         lineEdit_smooth->setObjectName(QString::fromUtf8("lineEdit_smooth"));
-        sizePolicy1.setHeightForWidth(lineEdit_smooth->sizePolicy().hasHeightForWidth());
-        lineEdit_smooth->setSizePolicy(sizePolicy1);
+        sizePolicy2.setHeightForWidth(lineEdit_smooth->sizePolicy().hasHeightForWidth());
+        lineEdit_smooth->setSizePolicy(sizePolicy2);
         lineEdit_smooth->setMinimumSize(QSize(0, 30));
         lineEdit_smooth->setMaximumSize(QSize(30, 16777215));
         lineEdit_smooth->setMaxLength(2);
@@ -520,8 +525,9 @@ public:
 
         groupBox_7 = new QGroupBox(Widget);
         groupBox_7->setObjectName(QString::fromUtf8("groupBox_7"));
-        groupBox_7->setGeometry(QRect(850, 10, 100, 601));
-        groupBox_7->setMaximumSize(QSize(100, 16777215));
+        groupBox_7->setGeometry(QRect(850, 10, 120, 601));
+        groupBox_7->setMinimumSize(QSize(120, 600));
+        groupBox_7->setMaximumSize(QSize(150, 16777215));
         verticalLayout_5 = new QVBoxLayout(groupBox_7);
         verticalLayout_5->setSpacing(6);
         verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
@@ -623,23 +629,23 @@ public:
         label_22->setText(QCoreApplication::translate("Widget", "Error\357\274\232", nullptr));
         label_lost->setText(QCoreApplication::translate("Widget", "0", nullptr));
         label_23->setText(QString());
-        label_ComSta->setText(QString());
-        label_16->setText(QCoreApplication::translate("Widget", "Port\357\274\232", nullptr));
-        pushButton_Open->setText(QCoreApplication::translate("Widget", "Open", nullptr));
-        pushButton_Close->setText(QCoreApplication::translate("Widget", "Close", nullptr));
         pushButton_Cou->setText(QString());
-        pushButton_Send->setText(QString());
-        pushButton_Pause->setText(QString());
         label_17->setText(QCoreApplication::translate("Widget", "Exposure time", nullptr));
         lineEdit_Int->setText(QCoreApplication::translate("Widget", "50", nullptr));
+        checkBox_removeDark->setText(QString());
+        pushButton_Close->setText(QCoreApplication::translate("Widget", "Close", nullptr));
+        label_16->setText(QCoreApplication::translate("Widget", "Com Port\357\274\232", nullptr));
+        pushButton_GetDark->setText(QString());
+        pushButton_SetInt->setText(QCoreApplication::translate("Widget", "Set", nullptr));
+        pushButton_Pause->setText(QString());
         comboBox_unit->setItemText(0, QCoreApplication::translate("Widget", "ms", nullptr));
         comboBox_unit->setItemText(1, QCoreApplication::translate("Widget", "us", nullptr));
 
-        pushButton_SetInt->setText(QCoreApplication::translate("Widget", "Set", nullptr));
-        pushButton_GetDark->setText(QString());
-        checkBox_removeDark->setText(QString());
+        pushButton_Send->setText(QString());
+        pushButton_Open->setText(QCoreApplication::translate("Widget", "Open", nullptr));
+        label_ComSta->setText(QString());
         lineEdit_Filterlevel->setText(QCoreApplication::translate("Widget", "1", nullptr));
-        label_18->setText(QCoreApplication::translate("Widget", "Avg:", nullptr));
+        label_18->setText(QCoreApplication::translate("Widget", "Avg value:", nullptr));
         lineEdit_Avg->setText(QCoreApplication::translate("Widget", "1", nullptr));
         pushButton_SetAvg->setText(QCoreApplication::translate("Widget", "Set", nullptr));
         lineEdit_interval->setText(QCoreApplication::translate("Widget", "1", nullptr));

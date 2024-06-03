@@ -15,5 +15,15 @@
         <file>images/camera.png</file>
         <file>images/enable.png</file>
         <file>images/disable.png</file>
+        <file>images/focus.png</file>
+        <file>images/media-playback-start.png</file>
+        <file>images/media-seek-forward-7.png</file>
+        <file>images/text-field.png</file>
+        <file>images/thumbnail.png</file>
+        <file>images/media-playback-pause.png</file>
+        <file>images/Dark.png</file>
+        <file>images/RemoveDark.png</file>
+        <file>images/invisible.png</file>
+        <file>images/visible.png</file>
     </qresource>
 </RCC>

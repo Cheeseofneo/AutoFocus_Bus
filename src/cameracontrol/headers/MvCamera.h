@@ -15,6 +15,7 @@
 class CMvCamera
 {
 public:
+
     CMvCamera();
     ~CMvCamera();
 
@@ -125,7 +126,7 @@ public:
 
 private:
 
-    void*               m_hDevHandle;
+    void*   m_hDevHandle;
 
 };
 

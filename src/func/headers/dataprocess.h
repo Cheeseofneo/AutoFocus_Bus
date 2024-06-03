@@ -13,34 +13,13 @@
 
 using namespace cv;
 
-// Separate the method and execution
-//class ProcessThread : public QThread
-//{
-//    Q_OBJECT
-//public:
-//    ProcessThread(QObject *parent = 0)
-//        : QThread(parent){ }
-
-//protected:
-//    void run() override;
-//    void stop();
-
-//signals:
-//    void ThreadMyCom(QByteArray);
-
-//private:
-//    void readData();
-//};
-
-
 class DataProcess
 {
 public:
     DataProcess();
     ~DataProcess();
-
-    void get_CCDdata(QVector<double>);
     int FindFocus(QString img_path);
+    int offset_calculate(QVector<double> data, int focus);
     std::vector<int> Calibrate(QString img_path, QString lineCCDdata_path);
 
 private:

@@ -1,7 +1,6 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
 #define STATION_ADDRESS 8
 
 MainWindow::MainWindow(QWidget *parent)
@@ -12,41 +11,47 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowFlags(windowFlags()& ~Qt::WindowMaximizeButtonHint);
     this->setWindowTitle("Autofocus");
     this->setMinimumSize(1000,800);
-
-    // 电机通信初始化设置控件
-    dialog* Commtype = new dialog(this);
-    Commtype->setWindowTitle("Connect");
-    Commtype->setFixedSize(500,600);
-    Commtype->setWindowFlags(Qt::Dialog);
-    Commtype->exec();
-
-    //exec()后对象不会被销毁 检查是否为空
-//    if(QDir::exists(Commtype->command_path))  command_savepath = Commtype->command_path;
-//    else QMessageBox::information(this,tr("错误"),tr("命令行存储路径不存在！"),QMessageBox::Ok);;
-    if(QDir::exists(Commtype->camera_path))   image_savepath = Commtype->camera_path;
-    else QMessageBox::information(this,tr("Error"),tr("相机图像存储路径不存在！"),QMessageBox::Ok);;
-
-    if(QDir::exists(Commtype->lineccd_path))  lineccddata_savepath = Commtype->lineccd_path;
-    else QMessageBox::information(this,tr("Error"),tr("线阵CCD数据存储路径不存在！"),QMessageBox::Ok);;
+    this->setMaximumSize(1920,1080);
 
     // 线阵CCD相关控件
-    m_widget = new lineccdview();
+    m_widget = new lineccdview;
     ui->stackedWidget->addWidget(m_widget);
     ui->stackedWidget->setCurrentWidget(m_widget);
 
     // 电机运动模式设置
     m_vmode = new velocitymode(this);
     m_pmode = new posmode(this);
-
     modbusDevice = new QModbusRtuSerialMaster(this);
     pollTimer = new QTimer;
 
-    InitialSetting();
-
-    InitChart();
-
+    // 线程、控件关联管理
+    //connect(m_widget,SIGNAL(ThreadCCDdata(QVector<double>)),this,SLOT(ReceiveCCDdata(QVector<double>)) );
     //QLoggingCategory::setFilterRules(QStringLiteral("qt.modbus* = true"));
     //connect(ui->listWidget, &QListWidget::itemClicked,this, &MyWindow::handleItemClicked);
+
+    InitialSetting();
+
+    // 电机通信初始化设置控件
+    dialog* Commtype = new dialog(this);
+    Commtype->setWindowTitle("Motor Connect");
+    Commtype->setFixedSize(500,600);
+    Commtype->setWindowFlags(Qt::Dialog);
+    Commtype->exec();
+
+    //exec()后对象不会被销毁 检查是否为空
+    QFileInfo checkFile(Commtype->camera_path);
+    if (checkFile.exists() && checkFile.isDir()) {
+       image_savepath = Commtype->camera_path;
+    }else {
+       QMessageBox::information(this,tr("Error"),tr("相机图像存储路径不存在！"),QMessageBox::Ok);
+    }
+
+    QFileInfo checkFile2(Commtype->lineccd_path);
+    if (checkFile2.exists() && checkFile2.isDir()) {
+       lineccddata_savepath = Commtype->lineccd_path;
+    }else {
+       QMessageBox::information(this,tr("Error"),tr("线阵CCD数据存储路径不存在！"),QMessageBox::Ok);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -54,7 +59,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//初始化配置
 void MainWindow::InitialSetting()
 {
     //填充串口号组合框
@@ -63,7 +67,8 @@ void MainWindow::InitialSetting()
     // 设置工具栏状态
     ui->actiondisplace->setEnabled(false);
     ui->actionvelocity->setEnabled(false);
-
+    ui->actionfocus->setEnabled(false);
+    ui->actionSave->setEnabled(false);
 
     //填充串口波特率
     QStringList baud={"4800","9600","14400","19200","28800","38400","56000","57600","115200","128000","230400","256000"};
@@ -73,7 +78,6 @@ void MainWindow::InitialSetting()
     ui->comboBoxData->addItem("7位");
     ui->comboBoxData->addItem("8位");
     ui->comboBoxData->addItem("9位");
-    ui->comboBoxData->setCurrentIndex(1);
 
     //填充串口校验位
     ui->comboBoxParity->addItem("无校验");
@@ -88,8 +92,8 @@ void MainWindow::InitialSetting()
     //填充寄存器类型
     ui->comboBoxDataType->addItem("0 Coils");
     ui->comboBoxDataType->addItem("1 Input Status");
-    ui->comboBoxDataType->addItem("3 Input Registers");
-    ui->comboBoxDataType->addItem("4 Holding Registers");
+    ui->comboBoxDataType->addItem("2 Input Registers");
+    ui->comboBoxDataType->addItem("3 Holding Registers");
     ui->comboBoxDataType->setCurrentIndex(3);
 
     //填充报文格式
@@ -103,6 +107,9 @@ void MainWindow::InitialSetting()
     //设置界面操作的初始状态
     ui->spinBoxInterval->setValue(1000);
     ui->checkBoxAuto->setChecked(true);
+
+    //成员变量赋值
+
 }
 
 //搜索串口
@@ -117,7 +124,7 @@ void MainWindow::SearchSerialPorts()
 }
 
 //写数据请求
-void MainWindow::WriteRequest(QList<quint16> values)
+void MainWindow::WriteCommand(QList<quint16> values)
 {
     if (!modbusDevice)
     {
@@ -150,7 +157,7 @@ void MainWindow::WriteRequest(QList<quint16> values)
         writeUnit.setValue(i, values.at(i));
     }
 
-    //serverEdit 发生给slave的ID
+    //serverEdit发给slave的ID
     if (auto *reply = modbusDevice->sendWriteRequest(writeUnit,ui->spinBoxStation->value()))
     {
         if (!reply->isFinished())
@@ -185,7 +192,7 @@ void MainWindow::WriteCommand(int stationAddress,int startAddress, QVector<quint
     }
 
     QModbusDataUnit::RegisterType type=QModbusDataUnit::HoldingRegisters;
-    QModbusDataUnit writeUnit = QModbusDataUnit(type,startAddress, command.size()/2);
+    QModbusDataUnit writeUnit = QModbusDataUnit(type,startAddress, command.size());
 
     for(int i=0; i<command.size(); i++)
     {
@@ -223,12 +230,11 @@ void MainWindow::ReadRequest()
 {
     if (!modbusDevice)
     {
-        ::information(this, "Error",  "尚未连接从站设备");
+        QMessageBox::information(this, "Error",  "尚未连接从站设备");
         return;
     }
 
     QModbusDataUnit::RegisterType type;
-
 
     switch(ui->comboBoxDataType->currentIndex())
     {
@@ -302,16 +308,9 @@ void MainWindow::ReadSerialData()
     reply->deleteLater();
 }
 
-//图形显示的初始化
-void MainWindow::InitChart()
-{
+void MainWindow::ReceiveCCDdata(QVector<double> data){
 
-}
-
-//曲线显示
-void MainWindow::ChartDisplay()
-{
-    
+    m_CCDData = data;
 }
 
 //退出程序
@@ -327,11 +326,13 @@ void MainWindow::on_actionConnect_triggered()
         return;
 
     modbusDevice->setConnectionParameter(QModbusDevice::SerialPortNameParameter,ui->comboBoxPort->currentText());
-    modbusDevice->setConnectionParameter(QModbusDevice::SerialBaudRateParameter,ui->comboBoxBaud->currentText().toInt());
+    modbusDevice->setConnectionParameter(QModbusDevice::SerialBaudRateParameter,
+                                         ui->comboBoxBaud->currentText().toInt());
 
     switch(ui->comboBoxParity->currentIndex())                   //设置奇偶校验
     {
-        case 0: modbusDevice->setConnectionParameter(QModbusDevice::SerialParityParameter,QSerialPort::NoParity);break;
+        case 0: modbusDevice->setConnectionParameter(QModbusDevice::SerialParityParameter,
+                                                     QSerialPort::NoParity);break;
         default: break;
     }
 
@@ -368,10 +369,13 @@ void MainWindow::on_actionConnect_triggered()
         ui->actionConnect->setEnabled(false);
         ui->actionDisconnect->setEnabled(true);
         ui->actionRefresh->setEnabled(false);
+        ui->actionmotorenable->setEnabled(true);
+        ui->actiondisable->setEnabled(true);
+        ui->actiondisplace->setEnabled(true);
+        ui->actionvelocity->setEnabled(true);
     }
     else    //打开失败提示
     {
-
         QMessageBox::information(this,tr("错误"),tr("连接从站失败！"),QMessageBox::Ok);
     }
 }
@@ -381,11 +385,14 @@ void MainWindow::on_actionDisconnect_triggered()
 {
     modbusDevice->disconnectDevice();
     pollTimer->stop();
-
     // 设置控件可否使用
     ui->actionConnect->setEnabled(true);
     ui->actionDisconnect->setEnabled(false);
     ui->actionRefresh->setEnabled(true);
+    ui->actionmotorenable->setEnabled(false);
+    ui->actiondisable->setEnabled(false);
+    ui->actiondisplace->setEnabled(false);
+    ui->actionvelocity->setEnabled(false);
 }
 
 //刷新串口
@@ -396,8 +403,17 @@ void MainWindow::on_actionRefresh_triggered()
 }
 
 //参数配置
-void MainWindow::on_actionConfig_triggered()
-{
+//void MainWindow::on_actionConfig_triggered()
+//{
+//    // 可以用作电机参数配置
+//}
+
+// 对焦
+void MainWindow::on_actionfocus_triggered(){
+
+//    int pos = ;
+//    DataProcess().offset_calculate();
+//    WriteCommand();
 
 }
 
@@ -406,6 +422,7 @@ void MainWindow::on_actionSave_triggered()
 {
 
     ui->actionSave->setEnabled(false);
+    ui->actionSave->setDisabled(false);
 
 //    if(ui->textBrowser->toPlainText().isEmpty()){
 //        QMessageBox::information(this, "提示消息", tr("貌似还没有数据! 您需要在发送编辑框中输入要发送的数据"), QMessageBox::Ok);
@@ -413,70 +430,68 @@ void MainWindow::on_actionSave_triggered()
 
 
     // command保存
-    QString filename = QFileDialog::getSaveFileName(this, tr("保存为"), tr("未命名.txt"),tr("Text files (*.txt)"));
+    //    QString filename = QFileDialog::getSaveFileName(this, tr("保存为"), tr("未命名.txt"),tr("Text files (*.txt)"));
+    //    QFile file(filename);
+    //    if(file.fileName().isEmpty()){
+    //     return;
+    //    }
 
-    QFile file(filename);
-
-    if(file.fileName().isEmpty()){
-     return;
-    }
-
-    //如果打开失败则给出提示并退出函数
-    if(!file.open(QFile::WriteOnly | QIODevice::Text)){
-        QMessageBox::warning(this, tr("保存文件"), tr("打开文件 %1 失败, 无法保存\n%2").arg(filename).arg(file.errorString()), QMessageBox::Ok);
-        return;
-    }
-    //写数据到文件
-    QTextStream out(&file);
-    out<<ui->textBrowser->toPlainText();
-    file.close();
+    //    //如果打开失败则给出提示并退出函数
+    //    if(!file.open(QFile::WriteOnly | QIODevice::Text)){
+    //        QMessageBox::warning(this, tr("保存文件"), tr("打开文件 %1 失败, 无法保存\n%2").arg(filename).arg(file.errorString()), QMessageBox::Ok);
+    //        return;
+    //    }
+    //    //写数据到文件
+    //    QTextStream out(&file);
+    //    out<<ui->textBrowser->toPlainText();
+    //    file.close();
 
 
     // lineCCD save
     QString selfilter;
     QString lineccdfileName = QFileDialog::getSaveFileName(this,
-       tr("LineCCD Save Data"),
-       "",
-       tr("*.txt;;*.csv"),&selfilter);
+                           tr("LineCCD Save Data"),
+                           "",
+                           tr("*.txt;;*.csv"),&selfilter);
 
     if (!lineccdfileName.isNull())
     {
-        QFile file(fileName);
-        if(!file.open(QIODevice::WriteOnly  | QIODevice::Text|QIODevice::Truncate))
+        QFile file(lineccdfileName);
+        if(!file.open(QIODevice::WriteOnly | QIODevice::Text|QIODevice::Truncate))
         {
-         QMessageBox::warning(this,"warning","can't open",QMessageBox::Yes);
+            QMessageBox::warning(this,"warning","can't open",QMessageBox::Yes);
         }
         QTextStream in(&file);
         if(selfilter==("*.txt"))
         {
-         for(int i = 0;i<m_CCDData.length();i++)
-         {
-             in<<QString::number(m_CCDData_Pixels[i]) + " "+ QString::number(m_CCDData[i])<<"\n";
-         }
+            for(int i = 0;i<m_CCDData.length();i++)
+            {
+                in<<QString::number(m_CCDData[i])<<"\n";
+            }
         }
         else if(selfilter==("*.csv"))
         {
-         for(int i = 0;i<m_CCDData.length();i++)
-         {
-             in<<QString::number(m_CCDData_Pixels[i]) + ','+ QString::number(m_CCDData[i])<<"\n";
-         }
+            for(int i = 0;i<m_CCDData.length();i++)
+            {
+                in<<QString::number(m_CCDData[i])<<"\n";
+            }
         }
         file.close();
     }
     else
     {
-
+        QMessageBox::warning(this,"warning","can't open",QMessageBox::Yes);
     }
-
 
     ui->actionSave->setEnabled(true);
 }
 
-void MainWindow::on_actionenable_triggered()
+void MainWindow::on_actionmotorenable_triggered()
 {
     ui->actiondisplace->setEnabled(true);
     ui->actionvelocity->setEnabled(true);
-    
+    ui->actionfocus->setEnabled(true);
+
     QVector<quint16> startenable{0x000a};
     WriteCommand(STATION_ADDRESS,0x1000,startenable);
 
@@ -486,6 +501,7 @@ void MainWindow::on_actiondisable_triggered()
 {
     ui->actiondisplace->setEnabled(false);
     ui->actionvelocity->setEnabled(false);
+    ui->actionfocus->setEnabled(false);
 
     QVector<quint16> closeenable{0x0001};
     QVector<quint16> triggermode{0x0100};  //上电自动回零
@@ -517,13 +533,14 @@ void MainWindow::on_actiondisplace_triggered()
     // m_pmode->setWindowModality(Qt::WindowModal);
     m_pmode->show();
 }
+
 // 线阵ccd传感器配置
 void MainWindow::on_actionchannel_config_triggered()
 {
     m_widget->m_DlgConfig->setWindowTitle("LineCCD配置");
     m_widget->m_DlgConfig->show();
-
 }
+
 //相机配置
 void MainWindow::on_actioncamera_triggered()
 {
@@ -551,7 +568,7 @@ void MainWindow::on_pushButtonWrite_clicked()
     }
 
     //qDebug()<<values.size();
-    WriteRequest(values);
+    WriteCommand(values);
 }
 
 //手动发送

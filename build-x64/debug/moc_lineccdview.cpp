@@ -133,7 +133,7 @@ void MyThreadSerial::ThreadMyCom(QByteArray _t1)
 }
 struct qt_meta_stringdata_lineccdview_t {
     QByteArrayData data[37];
-    char stringdata0[835];
+    char stringdata0[813];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -149,41 +149,42 @@ QT_MOC_LITERAL(3, 27, 15), // "QVector<double>"
 QT_MOC_LITERAL(4, 43, 27), // "on_pushButton_Close_clicked"
 QT_MOC_LITERAL(5, 71, 9), // "readMyCom"
 QT_MOC_LITERAL(6, 81, 3), // "str"
-QT_MOC_LITERAL(7, 85, 11), // "timerUpDate"
-QT_MOC_LITERAL(8, 97, 12), // "timerUpDate2"
-QT_MOC_LITERAL(9, 110, 12), // "timerUpDate3"
-QT_MOC_LITERAL(10, 123, 26), // "on_pushButton_Open_clicked"
-QT_MOC_LITERAL(11, 150, 26), // "on_pushButton_Send_clicked"
-QT_MOC_LITERAL(12, 177, 25), // "on_pushButton_Cou_clicked"
-QT_MOC_LITERAL(13, 203, 28), // "on_pushButton_SetInt_clicked"
-QT_MOC_LITERAL(14, 232, 26), // "on_pushButton_Save_clicked"
-QT_MOC_LITERAL(15, 259, 27), // "on_pushButton_Pause_clicked"
-QT_MOC_LITERAL(16, 287, 28), // "on_pushButton_SetAvg_clicked"
-QT_MOC_LITERAL(17, 316, 5), // "ToStr"
-QT_MOC_LITERAL(18, 322, 6), // "number"
-QT_MOC_LITERAL(19, 329, 4), // "size"
-QT_MOC_LITERAL(20, 334, 24), // "on_pushButton_fW_clicked"
-QT_MOC_LITERAL(21, 359, 24), // "on_pushButton_fR_clicked"
-QT_MOC_LITERAL(22, 384, 23), // "on_textEdit_textChanged"
-QT_MOC_LITERAL(23, 408, 27), // "on_pushButton_Clean_clicked"
-QT_MOC_LITERAL(24, 436, 36), // "on_comboBox_unit_currentIndex..."
-QT_MOC_LITERAL(25, 473, 4), // "arg1"
-QT_MOC_LITERAL(26, 478, 31), // "on_pushButton_SetSmooth_clicked"
-QT_MOC_LITERAL(27, 510, 32), // "on_pushButton_EarseFlash_clicked"
-QT_MOC_LITERAL(28, 543, 29), // "on_pushButton_GetDark_clicked"
-QT_MOC_LITERAL(29, 573, 35), // "on_checkBox_removeDark_stateC..."
-QT_MOC_LITERAL(30, 609, 29), // "on_radioButton_pixels_clicked"
-QT_MOC_LITERAL(31, 639, 33), // "on_radioButton_wavelength_cli..."
-QT_MOC_LITERAL(32, 673, 28), // "on_radioButton_raman_clicked"
-QT_MOC_LITERAL(33, 702, 33), // "on_radioButton_wavenumber_cli..."
-QT_MOC_LITERAL(34, 736, 33), // "on_pushButton_SetInterval_cli..."
-QT_MOC_LITERAL(35, 770, 28), // "on_pushButton_filter_clicked"
-QT_MOC_LITERAL(36, 799, 35) // "on_pushButton_Bandrate_read_c..."
+QT_MOC_LITERAL(7, 85, 13), // "Bandrate_read"
+QT_MOC_LITERAL(8, 99, 11), // "timerUpDate"
+QT_MOC_LITERAL(9, 111, 12), // "timerUpDate2"
+QT_MOC_LITERAL(10, 124, 12), // "timerUpDate3"
+QT_MOC_LITERAL(11, 137, 26), // "on_pushButton_Open_clicked"
+QT_MOC_LITERAL(12, 164, 26), // "on_pushButton_Send_clicked"
+QT_MOC_LITERAL(13, 191, 25), // "on_pushButton_Cou_clicked"
+QT_MOC_LITERAL(14, 217, 28), // "on_pushButton_SetInt_clicked"
+QT_MOC_LITERAL(15, 246, 26), // "on_pushButton_Save_clicked"
+QT_MOC_LITERAL(16, 273, 27), // "on_pushButton_Pause_clicked"
+QT_MOC_LITERAL(17, 301, 28), // "on_pushButton_SetAvg_clicked"
+QT_MOC_LITERAL(18, 330, 5), // "ToStr"
+QT_MOC_LITERAL(19, 336, 6), // "number"
+QT_MOC_LITERAL(20, 343, 4), // "size"
+QT_MOC_LITERAL(21, 348, 24), // "on_pushButton_fW_clicked"
+QT_MOC_LITERAL(22, 373, 24), // "on_pushButton_fR_clicked"
+QT_MOC_LITERAL(23, 398, 23), // "on_textEdit_textChanged"
+QT_MOC_LITERAL(24, 422, 27), // "on_pushButton_Clean_clicked"
+QT_MOC_LITERAL(25, 450, 36), // "on_comboBox_unit_currentIndex..."
+QT_MOC_LITERAL(26, 487, 4), // "arg1"
+QT_MOC_LITERAL(27, 492, 31), // "on_pushButton_SetSmooth_clicked"
+QT_MOC_LITERAL(28, 524, 32), // "on_pushButton_EarseFlash_clicked"
+QT_MOC_LITERAL(29, 557, 29), // "on_pushButton_GetDark_clicked"
+QT_MOC_LITERAL(30, 587, 35), // "on_checkBox_removeDark_stateC..."
+QT_MOC_LITERAL(31, 623, 29), // "on_radioButton_pixels_clicked"
+QT_MOC_LITERAL(32, 653, 33), // "on_radioButton_wavelength_cli..."
+QT_MOC_LITERAL(33, 687, 28), // "on_radioButton_raman_clicked"
+QT_MOC_LITERAL(34, 716, 33), // "on_radioButton_wavenumber_cli..."
+QT_MOC_LITERAL(35, 750, 33), // "on_pushButton_SetInterval_cli..."
+QT_MOC_LITERAL(36, 784, 28) // "on_pushButton_filter_clicked"
 
     },
     "lineccdview\0ThreadCCDdata\0\0QVector<double>\0"
     "on_pushButton_Close_clicked\0readMyCom\0"
-    "str\0timerUpDate\0timerUpDate2\0timerUpDate3\0"
+    "str\0Bandrate_read\0timerUpDate\0"
+    "timerUpDate2\0timerUpDate3\0"
     "on_pushButton_Open_clicked\0"
     "on_pushButton_Send_clicked\0"
     "on_pushButton_Cou_clicked\0"
@@ -205,8 +206,7 @@ QT_MOC_LITERAL(36, 799, 35) // "on_pushButton_Bandrate_read_c..."
     "on_radioButton_raman_clicked\0"
     "on_radioButton_wavenumber_clicked\0"
     "on_pushButton_SetInterval_clicked\0"
-    "on_pushButton_filter_clicked\0"
-    "on_pushButton_Bandrate_read_clicked"
+    "on_pushButton_filter_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -239,17 +239,17 @@ static const uint qt_meta_data_lineccdview[] = {
       14,    0,  178,    2, 0x08 /* Private */,
       15,    0,  179,    2, 0x08 /* Private */,
       16,    0,  180,    2, 0x08 /* Private */,
-      17,    2,  181,    2, 0x08 /* Private */,
-      20,    0,  186,    2, 0x08 /* Private */,
+      17,    0,  181,    2, 0x08 /* Private */,
+      18,    2,  182,    2, 0x08 /* Private */,
       21,    0,  187,    2, 0x08 /* Private */,
       22,    0,  188,    2, 0x08 /* Private */,
       23,    0,  189,    2, 0x08 /* Private */,
-      24,    1,  190,    2, 0x08 /* Private */,
-      26,    0,  193,    2, 0x08 /* Private */,
+      24,    0,  190,    2, 0x08 /* Private */,
+      25,    1,  191,    2, 0x08 /* Private */,
       27,    0,  194,    2, 0x08 /* Private */,
       28,    0,  195,    2, 0x08 /* Private */,
-      29,    1,  196,    2, 0x08 /* Private */,
-      30,    0,  199,    2, 0x08 /* Private */,
+      29,    0,  196,    2, 0x08 /* Private */,
+      30,    1,  197,    2, 0x08 /* Private */,
       31,    0,  200,    2, 0x08 /* Private */,
       32,    0,  201,    2, 0x08 /* Private */,
       33,    0,  202,    2, 0x08 /* Private */,
@@ -273,17 +273,17 @@ static const uint qt_meta_data_lineccdview[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::QString, QMetaType::Int, QMetaType::Int,   18,   19,
+    QMetaType::Void,
+    QMetaType::QString, QMetaType::Int, QMetaType::Int,   19,   20,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString,   25,
+    QMetaType::Void, QMetaType::QString,   26,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   25,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   26,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -303,34 +303,34 @@ void lineccdview::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 0: _t->ThreadCCDdata((*reinterpret_cast< QVector<double>(*)>(_a[1]))); break;
         case 1: _t->on_pushButton_Close_clicked(); break;
         case 2: _t->readMyCom((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
-        case 3: _t->timerUpDate(); break;
-        case 4: _t->timerUpDate2(); break;
-        case 5: _t->timerUpDate3(); break;
-        case 6: _t->on_pushButton_Open_clicked(); break;
-        case 7: _t->on_pushButton_Send_clicked(); break;
-        case 8: _t->on_pushButton_Cou_clicked(); break;
-        case 9: _t->on_pushButton_SetInt_clicked(); break;
-        case 10: _t->on_pushButton_Save_clicked(); break;
-        case 11: _t->on_pushButton_Pause_clicked(); break;
-        case 12: _t->on_pushButton_SetAvg_clicked(); break;
-        case 13: { QString _r = _t->ToStr((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])));
+        case 3: _t->Bandrate_read(); break;
+        case 4: _t->timerUpDate(); break;
+        case 5: _t->timerUpDate2(); break;
+        case 6: _t->timerUpDate3(); break;
+        case 7: _t->on_pushButton_Open_clicked(); break;
+        case 8: _t->on_pushButton_Send_clicked(); break;
+        case 9: _t->on_pushButton_Cou_clicked(); break;
+        case 10: _t->on_pushButton_SetInt_clicked(); break;
+        case 11: _t->on_pushButton_Save_clicked(); break;
+        case 12: _t->on_pushButton_Pause_clicked(); break;
+        case 13: _t->on_pushButton_SetAvg_clicked(); break;
+        case 14: { QString _r = _t->ToStr((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
-        case 14: _t->on_pushButton_fW_clicked(); break;
-        case 15: _t->on_pushButton_fR_clicked(); break;
-        case 16: _t->on_textEdit_textChanged(); break;
-        case 17: _t->on_pushButton_Clean_clicked(); break;
-        case 18: _t->on_comboBox_unit_currentIndexChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 19: _t->on_pushButton_SetSmooth_clicked(); break;
-        case 20: _t->on_pushButton_EarseFlash_clicked(); break;
-        case 21: _t->on_pushButton_GetDark_clicked(); break;
-        case 22: _t->on_checkBox_removeDark_stateChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 23: _t->on_radioButton_pixels_clicked(); break;
-        case 24: _t->on_radioButton_wavelength_clicked(); break;
-        case 25: _t->on_radioButton_raman_clicked(); break;
-        case 26: _t->on_radioButton_wavenumber_clicked(); break;
-        case 27: _t->on_pushButton_SetInterval_clicked(); break;
-        case 28: _t->on_pushButton_filter_clicked(); break;
-        case 29: _t->on_pushButton_Bandrate_read_clicked(); break;
+        case 15: _t->on_pushButton_fW_clicked(); break;
+        case 16: _t->on_pushButton_fR_clicked(); break;
+        case 17: _t->on_textEdit_textChanged(); break;
+        case 18: _t->on_pushButton_Clean_clicked(); break;
+        case 19: _t->on_comboBox_unit_currentIndexChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 20: _t->on_pushButton_SetSmooth_clicked(); break;
+        case 21: _t->on_pushButton_EarseFlash_clicked(); break;
+        case 22: _t->on_pushButton_GetDark_clicked(); break;
+        case 23: _t->on_checkBox_removeDark_stateChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 24: _t->on_radioButton_pixels_clicked(); break;
+        case 25: _t->on_radioButton_wavelength_clicked(); break;
+        case 26: _t->on_radioButton_raman_clicked(); break;
+        case 27: _t->on_radioButton_wavenumber_clicked(); break;
+        case 28: _t->on_pushButton_SetInterval_clicked(); break;
+        case 29: _t->on_pushButton_filter_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {

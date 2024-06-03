@@ -5,7 +5,7 @@
 #include <QTSerialPort/QSerialPortInfo>
 #include <QtCore/QDebug>
 
-MyThreadSerial * gl_serial = NULL;
+//MyThreadSerial * gl_serial = NULL;
 
 //#define USE_ILX554
 //#define USE_ILX511
@@ -112,16 +112,11 @@ lineccdview::lineccdview(QWidget *parent):
     QWidget(parent),ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    this->setWindowTitle("YMLineCCDView:V0.01   Build: 20231102   Sensor: "+ QString(SensorType) );
     ptrMainWindow = this;
+    this->setWindowTitle("YMLineCCDView:V0.01 Sensor: "+ QString(SensorType) );
     this->showMaximized();
 
     m_averageTimes = 1;
-    QList<QSerialPortInfo> serialPortInfoList = QSerialPortInfo::availablePorts(); //可用的端口号
-    for(int i=0;i<serialPortInfoList.length();i++)
-    {
-        ui->comboBox->addItem(serialPortInfoList.at(i).portName());
-    }
 
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate()));
@@ -130,16 +125,20 @@ lineccdview::lineccdview(QWidget *parent):
     connect(timer2,SIGNAL(timeout()),this,SLOT(timerUpDate2()));
 
     serial = new MyThreadSerial(this);
-    m_DlgConfig = new Dialog_config(this);
-    
+    //只要serial线程发出该信号，就开始执行readMyCom，所以触发关键是看谁在emit
     connect(serial,SIGNAL(ThreadMyCom(QByteArray)),this,SLOT(readMyCom(QByteArray)));
-    //ThreadMyCom是信号，并无实际意义，只要serial线程发出该信号，就开始执行readMyCom，所以触发关键是看谁在emit
 
-    gl_serial = serial;
+    m_DlgConfig = new Dialog_config(this);
+
+    QList<QSerialPortInfo> serialPortInfoList = QSerialPortInfo::availablePorts(); //可用的端口号
+    for(int i=0;i<serialPortInfoList.length();i++)
+    {
+        ui->comboBox->addItem(serialPortInfoList.at(i).portName());
+    }
+    
+//    gl_serial = serial;
     m_myEdit = new QTextEdit;
-
     m_myEdit = ui->textEdit;
-
     m_len = 0;
     m_frame = 0;
     m_speed = 0;
@@ -154,7 +153,6 @@ lineccdview::lineccdview(QWidget *parent):
     }// spectrum的数据
 
     setupPlot();
-
     ui->pushButton_Cou->setToolTip(tr("Continuous display"));
     ui->pushButton_Send->setToolTip(tr("Single display"));
     ui->pushButton_Pause->setToolTip(tr("Pause display"));
@@ -262,18 +260,16 @@ void lineccdview::timerUpDate2()
     }
     else if(cc ==6)
     {
-        on_pushButton_Bandrate_read_clicked();
+        Bandrate_read();
     }
     else if(cc ==7)
     {
         GetSmooth();
-
     }
     else if(cc ==8)
     {
         GetInterval();
     }
-
     else if(cc ==9)
     {
         readCoff_1();
@@ -282,7 +278,6 @@ void lineccdview::timerUpDate2()
     {
         readCoff_2();
     }
-
     else if(cc ==11)
     {
         readCoff_3();
@@ -307,17 +302,17 @@ void lineccdview::timerUpDate()
     m_frameDelay = m_speed/30;
     if(m_frameDelay<1) m_frameDelay = 1;
     m_speed = 0;
+    // 如果有两个可用串口，当开启了其中一个后，当前串口和available串口始终不一致，会导致列表一直增加
+    //    QList<QSerialPortInfo> serialPortInfoList = QSerialPortInfo::availablePorts();
+    //    for(int i=0;i<serialPortInfoList.length();i++)
+    //    {
+    //        if(ui->comboBox->currentText()!=serialPortInfoList.at(i).portName())
+    //        {
+    //            ui->comboBox->addItem(serialPortInfoList.at(i).portName());
+    //        }
+    //    }
 
-    QList<QSerialPortInfo> serialPortInfoList = QSerialPortInfo::availablePorts();
-    for(int i=0;i<serialPortInfoList.length();i++)
-    {
-        if(ui->comboBox->currentText()!=serialPortInfoList.at(i).portName())
-        {
-            ui->comboBox->addItem(serialPortInfoList.at(i).portName());
-        }
-    }
-
-    if((  m_button_state == single )||( m_button_state ==countinuous ))
+    if((  m_button_state == single )||( m_button_state == countinuous ))
     {
         if(m_integrationTime >=1000)
         {
@@ -386,7 +381,7 @@ void lineccdview::readMyCom(QByteArray ccd_ba)
             quint8 crc_h = ccd_data.at(5+Pixels_ALL*2);
             quint8 crc_l = ccd_data.at(5+Pixels_ALL*2+1);
             quint16 crc_image = crc_h<<8|crc_l;
-            if(m_speed%m_frameDelay==0)  //显示帧率控制
+            if(m_frameDelay !=0 && m_speed%m_frameDelay==0)  //显示帧率控制
             {
                 if(crc_image==crc)
                 {
@@ -405,7 +400,6 @@ void lineccdview::readMyCom(QByteArray ccd_ba)
                     {
                         m_CCDData.append(input[i]);
                     }
-
                     ////////
                     if(m_Xdata.length()>0)
                         ui->plot->graph(0)->setData(m_Xdata, m_CCDData);
@@ -418,9 +412,8 @@ void lineccdview::readMyCom(QByteArray ccd_ba)
                         ui->plot->yAxis->setRange(0,65535);
                     ui->plot->replot();
                     m_frame++;
-                    emit ThreadCCDdata(m_CCDData);
+                    // emit ThreadCCDdata(m_CCDData);
                 }
-                
                 else
                 {
                     lost++;
@@ -473,9 +466,8 @@ void lineccdview::readMyCom(QByteArray ccd_ba)
             if(InfoList.length()>0)
                 InfoList2 = InfoList[1].split(',');
 
-
             ui->label_HardwareInfo->setText("Hardware Info.:"+InfoList[1]);
-            ui->label_ComSta->setPixmap(QPixmap(":/res/visible.png"));
+            ui->label_ComSta->setPixmap(QPixmap(":/image/visible.png"));
 
             ccd_data.clear();
 
@@ -640,6 +632,7 @@ void lineccdview::on_pushButton_Close_clicked()
 void lineccdview::on_pushButton_Open_clicked()
 {
     serial->ThreadopenMycom(ui->comboBox->currentText());
+
     if(serial->m_Com->isOpen())
     {
         ui->lineEdit_Int->setEnabled(true);
@@ -656,11 +649,9 @@ void lineccdview::on_pushButton_Open_clicked()
 
         ui->pushButton_SetAvg->setEnabled(true);
         ui->lineEdit_Avg->setEnabled(true);
-        m_groupBox = 1;
         ui->groupBox_7->setEnabled(true);
+        m_groupBox = 1;
         m_groupBox_5 = 1;
-
-
         m_DlgConfig->SetgroupBox(m_groupBox);
         m_DlgConfig->SetgroupBox5(m_groupBox_5);
         ui->comboBox_unit->setEnabled(true);
@@ -673,7 +664,7 @@ void lineccdview::on_pushButton_Open_clicked()
         ui->lineEdit_Filterlevel->setEnabled(true);
 
         m_progressValue = 0;
-        timer->start(1000);
+        timer->start(1000); //每隔一秒执行update
         GetHardwareInfo();
         getPar();
     }
@@ -683,7 +674,6 @@ void lineccdview::getPar()
 {
     timer2->start(100);
 }
-
 
 void lineccdview::on_pushButton_Send_clicked()
 {
@@ -717,8 +707,6 @@ void lineccdview::on_pushButton_Cou_clicked()
 
 void lineccdview::on_pushButton_SetInt_clicked()
 {
-
-
     if(ui->comboBox_unit->currentText()=="ms")
     {
         if(ui->lineEdit_Int->text().toShort()<1)
@@ -1252,14 +1240,12 @@ void lineccdview::on_pushButton_SetInterval_clicked()
     SetInterval();
 }
 
-
-
 void lineccdview::on_pushButton_filter_clicked()
 {
     SetFilterLevel();
 }
 
-void lineccdview::on_pushButton_Bandrate_read_clicked()
+void lineccdview::Bandrate_read()
 {
     QByteArray ba((char*)cmd, 5);
     ba[1] = 0x16;

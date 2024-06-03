@@ -20,14 +20,18 @@ public:
     ~LIQA();
 
 public:
+
+    int centroid(std::vector<float> lineCCDdata);
+    int centroid(std::vector<double> lineCCDdata);
     std::vector<float> readdata();
     std::vector<float> Median_filter(std::vector<float> lineCCDdata);
     std::vector<float> Highpass_filter(std::vector<float> lineCCDdata);
-    int centroid(std::vector<float> lineCCDdata);
     std::vector<float> Savi_Golay_filter(std::vector<float> centroid, int window_size, int order);
     std::vector<float> Calibration_params(std::vector<float> lineCCDdata, int head, int len);
     std::pair<std::vector<float>,std::vector<float>> windowing(
         std::vector<float> lineCCDdata, int window_size, char* window_type);
+    std::pair<std::vector<double>,std::vector<double>> windowing(
+        std::vector<double> lineCCDdata, int window_size, char* window_type);
     void plotdata(
         std::vector<float> key,std::vector<float> value,std::vector<float> centroid,std::vector<float> params,int head,int tail);
 

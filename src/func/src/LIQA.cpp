@@ -109,9 +109,54 @@ std::pair<std::vector<float>, std::vector<float>> LIQA::windowing(
     }
 }
 
+std::pair<std::vector<double>, std::vector<double>> LIQA::windowing(
+    std::vector<double> lineCCDdata, int window_size, char* window_type="")
+{
+    auto max_element = std::max_element(lineCCDdata.begin(), lineCCDdata.end());
+    int max_index=std::distance(std::begin(lineCCDdata),max_element);
+    auto min_element = std::min_element(lineCCDdata.begin(), lineCCDdata.end());
+    std::vector<double> x_window(window_size*2,0);
+    std::vector<double> lineCCDdata_win(window_size*2,0);
+
+    for (auto element : lineCCDdata)
+    {
+        element = (element-*min_element)/(*max_element-*min_element);}
+
+    if (window_type=="rect")
+    {
+        for (int i = 0; i < x_window.size(); ++i) {
+            lineCCDdata_win[i] = lineCCDdata[max_index-window_size+i];
+            x_window[i]=max_index-window_size+i;
+        }
+        return {lineCCDdata_win,x_window};
+    }
+    else if (window_type=="hanning")
+    {
+        std::vector<float> hanning(window_size,0);
+        for (int i = 0; i < hanning.size(); ++i) {
+            hanning[i] = 0.5*(1-std::cos(2*3.1415926535*i/(window_size-1)));}
+        std::transform(lineCCDdata_win.begin(), lineCCDdata_win.end(), hanning.begin(), lineCCDdata_win.begin(), std::multiplies<float>());
+        return {lineCCDdata_win,x_window};
+    }
+    else if (window_type=="")
+    {
+        std::vector<double> x(lineCCDdata.size(),0);
+        for (int i = 0; i <x.size(); ++i) {
+            x[i]=i;
+        }
+        return {lineCCDdata,x};
+    }
+    else
+    {
+        std::cout<<"The window type is not supported"<<std::endl;
+        return {lineCCDdata_win,x_window};
+    }
+}
+
+
 int LIQA::centroid(std::vector<float> lineCCDdata){
 
-    std::pair<std::vector<float>,std::vector<float>> win=windowing(lineCCDdata,100,"rect");
+    std::pair<std::vector<float>,std::vector<float>> win = windowing(lineCCDdata,100,"rect");
     std::vector<float> x_window=win.second;
     std::vector<float> lineCCDdata_win=win.first;
     float sumxy= std::inner_product(x_window.begin(),x_window.end(),lineCCDdata_win.begin(),0);
@@ -120,6 +165,16 @@ int LIQA::centroid(std::vector<float> lineCCDdata){
     return int(sumxy/sumx);
 }
 
+int LIQA::centroid(std::vector<double> lineCCDdata){
+
+    std::pair<std::vector<double>,std::vector<double>> win = windowing(lineCCDdata,100,"rect");
+    std::vector<double> x_window=win.second;
+    std::vector<double> lineCCDdata_win=win.first;
+    float sumxy= std::inner_product(x_window.begin(),x_window.end(),lineCCDdata_win.begin(),0);
+    float sumy= std::accumulate(lineCCDdata_win.begin(),lineCCDdata_win.end(),0);
+    float sumx= std::accumulate(x_window.begin(),x_window.end(),0);
+    return int(sumxy/sumx);
+}
 
 std::vector<float> LIQA::Calibration_params(std::vector<float> input, int head, int len){
     

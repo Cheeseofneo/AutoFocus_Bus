@@ -97,5 +97,10 @@ HEADERS += \
     src/motorcontrol/headers/posmode.h \
     src/motorcontrol/headers/velocitymode.h
 
+RC_ICONS = ModbusMaster.ico
+
+RESOURCES += \
+    Resources.qrc
+
 
 

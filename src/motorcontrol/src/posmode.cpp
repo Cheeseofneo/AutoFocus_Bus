@@ -3,14 +3,14 @@
 
 #define STATION_ADDRESS 8
 
-DataCaptureThread::DataCaptureThread( QModbusClient *device, QString imagesavapath, QString lineccdsavepath, QObject *parent)
-    : QThread(parent), m_device(device), m_imagesavapath(imagesavapath), m_lineccdsavepath(lineccdsavepath)
+DataCaptureThread::DataCaptureThread(QModbusClient *device, QString imagesavapath, QString lineccdsavepath,
+                                     QObject *parent = 0)
+    :  m_device(device), m_imagesavapath(imagesavapath), m_lineccdsavepath(lineccdsavepath), QThread(parent)
 {
     stopped = false;
 }
 
 void DataCaptureThread::run(){
-
     int loops = 0;
     QMessageBox msgBox(QMessageBox::Critical,
                    "错误",
@@ -21,24 +21,23 @@ void DataCaptureThread::run(){
                    "线阵CCD数据采集失败",
                    QMessageBox::Ok);
     
-    while( loops<stepNum && !stopped){ 
-        
+    while(loops<stepNum && !stopped){  // wait?
         // 采集图像和lineccd数据
-        int ret = LB_Grab().grabImg(1,true);        
+        int ret = LB_Grab().grabImg(1,m_imagesavapath.toStdString().c_str());
         if(ret == 0){
             msgBox.exec();
             break;
         }
         int ret2 = lineccdcapture(loops);
         if(ret2 == 0){
-            msgBox.exec();
+            msgBox2.exec();
             break;
         }
         msleep(2000);
 
         // 步进移动
         quint32 next = static_cast<quint32>(offset+loops*step);
-        WriteCommand(STATION_ADDRESS,0x1008,{static_cast<quint16>(next & 0x0000ffff),static_cast<quint16>(next>>16)}); // 触发移动
+        WriteCommand(STATION_ADDRESS,0x1008,{static_cast<quint16>(next & 0x0000ffff),static_cast<quint16>(next>>16)});
         msleep(1000);
         loops++;
     }
@@ -102,6 +101,16 @@ void DataCaptureThread::WriteCommand(int stationAddress,int startAddress, QVecto
     }
 }
 
+void DataCaptureThread::ProcessData(){
+
+    focus = DataProcess().FindFocus(m_imagesavapath);
+    int offset = DataProcess().offset_calculate(m_CCDData, focus);
+}
+
+void DataCaptureThread::Calibrate_value(){
+
+}
+
 // -----------------------------------------------------
 
 posmode::posmode(QWidget *parent):
@@ -110,14 +119,16 @@ posmode::posmode(QWidget *parent):
 {
     ui->setupUi(this);
     m_mainwindow = (MainWindow*)parentWidget();
-    m_capturethread = new DataCaptureThread(m_mainwindow->modbusDevice,"/home/linaro/","/home/linaro/",this);
+    m_capturethread = new DataCaptureThread(m_mainwindow->modbusDevice,m_mainwindow->image_savepath,
+                                            m_mainwindow->lineccddata_savepath,this);
 
     connect(ui->checkBoxtimedelay,SIGNAL(stateChanged(int)),this,SLOT(timedelay()));
     connect(ui->lineEditstart,&QLineEdit::textEdited, ui->labelbarstart, QLabel::setText);
     connect(ui->lineEditend,&QLineEdit::textEdited, ui->labelbarend, QLabel::setText);
-    connect(this,SIGNAL(readycapture(int)),m_capturethread,SLOT(capturethread(QVector<quint16> data)));
+    connect(m_mainwindow->m_widget,SIGNAL(ThreadCCDdata(QVector<double>)),
+            m_capturethread, SLOT(receiveccddata(QVector<double>)) );
+    connect(this,SIGNAL(readycapture(QVector<quint16>)),m_capturethread,SLOT(capturethread(QVector<quint16> data)));
     connect(this,SIGNAL(stopcapture()),m_capturethread,SLOT(stop()));
-    connect(m_mainwindow->m_widget,SIGNAL(ThreadCCDdata(QVector<double>)),m_capturethread,SLOT(receiveccddata(QVector<double> data)));
 
 //    QVBoxLayout *layout = new QVBoxLayout(this);
 //    layout->addWidget(ui->groupBoxstep, 0, Qt::AlignHCenter);
@@ -141,7 +152,6 @@ void posmode::Initial_Setting()
     ui->checkBoxstart->setChecked(true);
     // ui->checkBoxcapture->setChecked(false);
     ui->lineEditcurpos->setReadOnly(true);
- 
 
     //设置格式
     ui->lineEditstart->setValidator(new QRegExpValidator(QRegExp("^(-?/d+)(/./d+)?$")));
@@ -296,6 +306,7 @@ void posmode::on_pushButtonstartstep_clicked(){
         ui->labelbarstart->setNum(startpos);
         ui->labelbarend->setNum(endpos);
     }
+
     QVector<quint16> transdata;
     transdata.push_back(static_cast<quint16>(postopulse(startpos)));
     transdata.push_back(static_cast<quint16>(postopulse(endpos)));
@@ -310,17 +321,16 @@ void posmode::on_pushButtonstartstep_clicked(){
     WriteCommand(STATION_ADDRESS,0x10D0,clearpos);
     WriteCommand(STATION_ADDRESS,0x10D9,modeassign); // 脉冲清除模式
     WriteCommand(STATION_ADDRESS,0x1008,movestartpos);
-    
-
     emit readycapture(transdata);
+    m_capturethread->start();
 
 }
 
 void posmode::on_pushButtonendstep_clicked(){
     
-    
     emit stopcapture();
-    
+
+    // m_capturethread->wait();
 
 }
 

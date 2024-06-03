@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1560</width>
-    <height>979</height>
+    <height>1026</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -25,7 +25,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>180</width>
+      <width>181</width>
       <height>220</height>
      </rect>
     </property>
@@ -34,6 +34,12 @@
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>150</width>
+      <height>0</height>
+     </size>
     </property>
     <property name="title">
      <string>串口配置</string>
@@ -208,7 +214,7 @@
        <x>10</x>
        <y>20</y>
        <width>821</width>
-       <height>111</height>
+       <height>121</height>
       </rect>
      </property>
     </widget>
@@ -219,7 +225,7 @@
       <x>10</x>
       <y>240</y>
       <width>180</width>
-      <height>731</height>
+      <height>641</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -227,6 +233,18 @@
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>180</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>641</height>
+     </size>
     </property>
     <property name="title">
      <string>交互配置</string>
@@ -679,169 +697,21 @@
      <rect>
       <x>190</x>
       <y>10</y>
-      <width>921</width>
+      <width>1050</width>
       <height>601</height>
      </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>1050</width>
+      <height>0</height>
+     </size>
     </property>
     <property name="currentIndex">
      <number>1</number>
     </property>
     <widget class="QWidget" name="page"/>
     <widget class="QWidget" name="page_2"/>
-   </widget>
-   <widget class="QGroupBox" name="groupBox_4">
-    <property name="geometry">
-     <rect>
-      <x>1140</x>
-      <y>10</y>
-      <width>431</width>
-      <height>181</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>GroupBox</string>
-    </property>
-    <widget class="QPushButton" name="pushButton">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>120</y>
-       <width>80</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>保存图片</string>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="comboBox">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
-       <y>30</y>
-       <width>72</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_17">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>40</y>
-       <width>53</width>
-       <height>15</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>设备</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_18">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>80</y>
-       <width>53</width>
-       <height>15</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>触发模式</string>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="comboBox_2">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
-       <y>80</y>
-       <width>72</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_19">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>40</y>
-       <width>53</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>曝光时间</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit">
-     <property name="geometry">
-      <rect>
-       <x>280</x>
-       <y>40</y>
-       <width>113</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_20">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>90</y>
-       <width>53</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>增益</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_2">
-     <property name="geometry">
-      <rect>
-       <x>270</x>
-       <y>90</y>
-       <width>113</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_21">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>130</y>
-       <width>53</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>帧率</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit_3">
-     <property name="geometry">
-      <rect>
-       <x>270</x>
-       <y>130</y>
-       <width>113</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QLabel" name="label_16">
-    <property name="geometry">
-     <rect>
-      <x>1140</x>
-      <y>210</y>
-      <width>431</width>
-      <height>731</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>图片</string>
-    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -850,7 +720,7 @@
      <x>0</x>
      <y>0</y>
      <width>1560</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -893,6 +763,7 @@
    <addaction name="separator"/>
    <addaction name="actionSave"/>
    <addaction name="actionConfig"/>
+   <addaction name="actionfocus"/>
    <addaction name="separator"/>
    <addaction name="actionmotorenable"/>
    <addaction name="actiondisable"/>
@@ -1037,6 +908,15 @@
    </property>
    <property name="text">
     <string>关使能</string>
+   </property>
+  </action>
+  <action name="actionfocus">
+   <property name="icon">
+    <iconset resource="../Resources.qrc">
+     <normaloff>:/images/images/focus.png</normaloff>:/images/images/focus.png</iconset>
+   </property>
+   <property name="text">
+    <string>对焦</string>
    </property>
   </action>
  </widget>

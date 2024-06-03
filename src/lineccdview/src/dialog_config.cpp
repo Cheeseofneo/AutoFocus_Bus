@@ -232,7 +232,6 @@ void Dialog_config::SetcheckBox_HdTrigger(int index)
     ui->checkBox_HdTrigger->setEnabled(index);
 }
 
-
 void Dialog_config::SetgroupBox(int index)
 {
     ui->groupBox->setEnabled(index);
